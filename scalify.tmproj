@@ -54,7 +54,7 @@
 			<key>filename</key>
 			<string>Rakefile</string>
 			<key>lastUsed</key>
-			<date>2008-09-17T16:06:30Z</date>
+			<date>2008-09-17T21:45:02Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -165,6 +165,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{133, 316}, {1143, 878}}</string>
+	<string>{{552, 345}, {1360, 1156}}</string>
 </dict>
 </plist>

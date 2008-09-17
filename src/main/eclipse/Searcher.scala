@@ -79,7 +79,7 @@ object Renaming {
 		// 	if getSearcher(node).doesLocalVarNeedRenaming(frag, node.mb.imethod.get)
 		// } yield frag
 		
-		methodRename ::: forLoopRenames 	// ::: localVarRenames
+		/* methodRename ::: */ forLoopRenames 	// ::: localVarRenames
 	}
 
 	private def compareNames(n1: NamedDecl, n2: NamedDecl): Boolean =

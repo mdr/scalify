@@ -62,6 +62,7 @@ class QualifiedVariableName(override val node: dom.QualifiedName, vb: VBinding) 
 	override def emitDirect: Emission = segments match {
 		case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinIn contains x => emitString("Math.MIN_" + maxMinOut(x))
 		case SimpleName(x) :: SimpleName("MAX_VALUE") :: Nil if maxMinIn contains x => emitString("Math.MAX_" + maxMinOut(x))
+		case SimpleName("Math") :: SimpleName("PI") :: Nil => emitString("Math.Pi")
 		case _ => super.emitDirect
 	}
 }
