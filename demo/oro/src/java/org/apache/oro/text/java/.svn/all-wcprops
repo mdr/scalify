@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/java
+END
+JavaPattern.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/java/JavaPattern.java
+END
+JavaMatcher.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/java/JavaMatcher.java
+END
+JavaEngine.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/java/JavaEngine.java
+END
+JavaCompilerOptions.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/java/JavaCompilerOptions.java
+END
+JavaCompiler.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/java/JavaCompiler.java
+END
+JavaMatchResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/java/JavaMatchResult.java
+END

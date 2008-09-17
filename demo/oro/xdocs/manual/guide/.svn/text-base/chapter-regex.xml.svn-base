@@ -1,0 +1,127 @@
+<!-- $Id$ -->
+
+<chapter id="chapter-regex">
+  <title>Using the &package-regex; Package</title>
+
+  <para>The &package-regex; package is the core of the
+  Jakarta-ORO project.  It defines a set of base interfaces for
+  using regular expressions in Java programs.  It also provides a set
+  of classes implementing these interfaces for Perl 5 regular
+  expressions.</para>
+
+  <section id="package-regex-syntax">
+    <title>Syntax</title>
+
+    <para>A paragraph</para>
+
+    <section id="package-regex-syntax-whatis">
+      <title>What is a regular expression?</title>
+
+      <para>A paragraph</para>
+    </section>
+
+    <section id="package-regex-syntax-Perl5">
+      <title>Perl 5 regular expressions</title>
+
+      <para>A paragraph</para>
+    </section>
+  </section>
+
+
+  <section id="package-regex-interfaces">
+    <title>The Interfaces</title>
+
+    <para>A paragraph</para>
+
+    <section id="package-regex-interfaces-Pattern">
+      <title>Pattern</title>
+
+      <para>A paragraph</para>
+    </section>
+
+    <section id="package-regex-interfaces-PatternCompiler">
+      <title>PatternCompiler</title>
+
+      <para>A paragraph</para>
+    </section>
+
+    <section id="package-regex-interfaces-PatternMatcher">
+      <title>PatternMatcher</title>
+
+      <para>A paragraph</para>
+    </section>
+
+    <section id="package-regex-interfaces-MatchResult">
+      <title>MatchResult</title>
+
+      <para>A paragraph</para>
+    </section>
+  </section>
+
+
+  <section id="package-regex-classes">
+    <title>The Classes</title>
+
+    <para>A paragraph</para>
+
+    <section id="package-regex-classes-Perl5Pattern">
+      <title>Perl5Pattern</title>
+
+      <para>A paragraph</para>
+    </section>
+
+    <section id="package-regex-classes-Perl5Compiler">
+      <title>Perl5Compiler</title>
+
+      <para>A paragraph</para>
+    </section>
+
+    <section id="package-regex-classes-Perl5Matcher">
+      <title>Perl5Matcher</title>
+
+      <para>A paragraph</para>
+    </section>
+
+    <section id="package-regex-classes-PatternMatcherInput">
+      <title>PatternMatcherInput</title>
+
+      <para>A paragraph</para>
+    </section>
+
+    <section id="package-regex-classes-Util">
+      <title>Util</title>
+
+      <para>A paragraph</para>
+    </section>
+
+    <section id="package-regex-classes-Perl5Debug">
+      <title>Perl5Debug</title>
+
+      <para>A paragraph</para>
+    </section>
+  </section>
+
+  <section id="package-regex-examples">
+    <title>Example Programs</title>
+    <para>A paragraph</para>
+  </section>
+
+  <section id="package-regex-performance">
+    <title>Maximizing Performance</title>
+    <para>A paragraph</para>
+  </section>
+
+
+  <section id="package-regex-FAQ">
+    <title>Frequently Asked Questions</title>
+    <para>A paragraph</para>
+  </section>
+
+
+</chapter>
+
+<!--
+   Local variables:
+    mode: sgml
+   End:
+-->

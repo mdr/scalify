@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk
+END
+SyntaxTree.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/SyntaxTree.java
+END
+AwkEngine.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/AwkEngine.java
+END
+NegativeCharacterClassNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/NegativeCharacterClassNode.java
+END
+QuestionNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/QuestionNode.java
+END
+LeafNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/LeafNode.java
+END
+CatNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/CatNode.java
+END
+AwkCompiler.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/AwkCompiler.java
+END
+AwkStreamInput.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/AwkStreamInput.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/package.html
+END
+StarNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/StarNode.java
+END
+EpsilonNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/EpsilonNode.java
+END
+AwkPattern.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/AwkPattern.java
+END
+OrNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/OrNode.java
+END
+AwkMatcher.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/AwkMatcher.java
+END
+TokenNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/TokenNode.java
+END
+CharacterClassNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/CharacterClassNode.java
+END
+PlusNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/PlusNode.java
+END
+AwkCompilerOptions.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/AwkCompilerOptions.java
+END
+SyntaxNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/SyntaxNode.java
+END
+AwkMatchResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/awk/AwkMatchResult.java
+END

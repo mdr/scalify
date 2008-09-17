@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex
+END
+Substitution.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/Substitution.html
+END
+Perl5Engine.html
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/Perl5Engine.html
+END
+Pattern.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/Pattern.html
+END
+Util.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/Util.html
+END
+PatternMatchingEngine.html
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/PatternMatchingEngine.html
+END
+PatternMatcher.html
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/PatternMatcher.html
+END
+Perl5Compiler.html
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/Perl5Compiler.html
+END
+MalformedPatternException.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/MalformedPatternException.html
+END
+package-frame.html
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/package-frame.html
+END
+Perl5Substitution.html
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/Perl5Substitution.html
+END
+PatternCompilerOptions.html
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/PatternCompilerOptions.html
+END
+Perl5Pattern.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/Perl5Pattern.html
+END
+package-summary.html
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/package-summary.html
+END
+package-tree.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/package-tree.html
+END
+Perl5Matcher.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/Perl5Matcher.html
+END
+MatchResult.html
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/MatchResult.html
+END
+Perl5Debug.html
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/Perl5Debug.html
+END
+Perl5CompilerOptions.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/Perl5CompilerOptions.html
+END
+PatternMatcherInput.html
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/PatternMatcherInput.html
+END
+StringSubstitution.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/StringSubstitution.html
+END
+PatternCompiler.html
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/repos/asf/!svn/ver/54487/jakarta/oro/trunk/docs/api/org/apache/oro/text/regex/PatternCompiler.html
+END

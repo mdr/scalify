@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!--
+  $Id: status.xml 124053 2005-01-04 01:24:35Z dfs $
+ 
+  Copyright 2000-2005 The Apache Software Foundation
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+<document>
+
+  <properties>
+    <author>Daniel Savarese</author>
+    <title>Project Status</title>
+  </properties>
+
+  <body>
+
+    <section name="Project Status">
+
+      <p>
+      Version 2.0.8 is the latest stable release.  It currently supports Perl
+      5.003 regular expressions in the org.apache.oro.text.regex and
+      org.apache.oro.text.perlpackages.  The main development goal is
+      to upgrade these packages to support Perl 5.8 regular
+      expressions.  The development plan will lay out the path to
+      achieving this objective and this status page will report the
+      state of our progress.  Our current objective is to settle on a
+      development plan sometime in the near future.
+      </p>
+      <p>
+      Immediate short-term development goals are summarized in this
+      extract from the oro-dev mailing list:
+      </p>
+<pre>
+ 3. Prioritize this crop of changes.  My bias is:
+      1. Conditional compilation supporting a J2ME target
+      2. Optional table-based character type lookup
+      3. Theoretically inlinable input iteration abstraction,
+         using CharSequence for J2SE 1.4
+      4. Proper case folding.
+      5. Possibly pool Perl5Repetition objects or something else
+         to reduce impact of memory allocation.
+    This order is based on dependencies that will minimize work as well
+    as complexity.  You need 1 before you can do 3 if you're going to
+    support multiple JVMs.  You want to do 3 before you do 4 if 4 might
+    affect code that iterates through input; also 3 is easier to implement
+    and less likely to introduce a bug than 4.  5 we don't know if we need
+    to do yet.
+
+Number 4 may not be a quick change to make, but the rest aren't large
+time sinks.  If Mark could get us started with just one functionality
+unit test and Bob could get us started with some performance tests,
+I think there will be sufficient grounds to nominate you both as
+committers (Jon and I just have to dig one of the inactive initial
+committers to provide a third vote), which will make it easier for
+each of you to support your respective company's use of jakarta-oro.
+This may just be the thing to kick some life back into development
+and keep my time constraints from being such a bottleneck.  As I
+recall, Bob, you also were hoping for group-local modifiers.  That's
+something we can tackle if we successfully make it through the above.
+
+As a side note, for bug fixes I'm comfortable with just making the
+fixes as necessary.  But for changes that impact the overall API
+or implementation, I think the httpd group's original review code
+first before commit, or at least discuss and agree on the implementation
+beforehand, is the best way to go (and very manageable for this
+project since it's not a lot of code).  So, even though I've implicitly
+assigned myself the implementation of some of these changes, I'm not
+going to have at them all without discussion.  For example, I'll propose
+a way to reimplement the input traversal to support the use of
+CharSequence and the list can criticize it and counter propose.
+</pre>
+
+    </section>
+
+  </body>
+
+</document>
+

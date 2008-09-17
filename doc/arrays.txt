@@ -1,0 +1,71 @@
+// * ArrayCreation:
+// *    <b>new</b> PrimitiveType <b>[</b> Expression <b>]</b> { <b>[</b> Expression <b>]</b> } { <b>[</b> <b>]</b> }
+// *    <b>new</b> TypeName [ <b>&lt;</b> Type { <b>,</b> Type } <b>&gt;</b> ]
+// *        <b>[</b> Expression <b>]</b> { <b>[</b> Expression <b>]</b> } { <b>[</b> <b>]</b> }
+// *    <b>new</b> PrimitiveType <b>[</b> <b>]</b> { <b>[</b> <b>]</b> } ArrayInitializer
+// *    <b>new</b> TypeName [ <b>&lt;</b> Type { <b>,</b> Type } <b>&gt;</b> ]
+// *        <b>[</b> <b>]</b> { <b>[</b> <b>]</b> } ArrayInitializer
+// 
+// some examples
+// int ia[][] = { { 1, 2 }, null };		(JLS3 p291)
+// int ia[] = new int[3]
+// 
+// 15.10.1   Run-time Evaluation of Array Creation Expressions 
+// 
+// At run time, evaluation of an array creation expression behaves as follows. If there 
+// are no dimension expressions, then there must be an array initializer. The value of 
+// the array initializer is the value of the array creation expression. Otherwise: 
+// First, the dimension expressions are evaluated, left-to-right. If any of the 
+// expression evaluations completes abruptly, the expressions to the right of it are not 
+// evaluated. 
+// Next, the values of the dimension expressions are checked. If the value of any 
+// DimExpr expression is less than zero, then an 
+// NegativeArraySizeException is 
+// thrown. 
+// Next, space is allocated for the new array. If there is insufficient space to allo- 
+// cate the array, evaluation of the array creation expression completes abruptly by 
+// throwing an 
+// OutOfMemoryError. 
+// Then, if a single DimExpr appears, a single-dimensional array is created of 
+// the specified length, and each component of the array is initialized to its default 
+// value (§4.12.5). 
+// 
+// For example, the declaration: 
+//   float[][] matrix = new float[3][3]; 
+// is equivalent in behavior to: 
+//   float[][] matrix = new float[3][]; 
+//   for (int d = 0; d < matrix.length; d++) 
+//     matrix[d] = new float[3]; 
+//
+// 15.10.2   Example: Array Creation Evaluation Order 
+// In an array creation expression (§15.10), there may be one or more dimension 
+// expressions, each within brackets. Each dimension expression is fully evaluated 
+// before any part of any dimension expression to its right. 
+// 		
+// http://blogs.sun.com/sundararajan/entry/scala_for_java_programmers
+//
+// Array is a generic type in Scala (much like "Vector", "List" etc. in Java
+// are). Note: Arrays do not follow the covariant subtype rule. i.e.,
+// Array[Graduate] is not a subtype of Array[Person] even if Graduate is subtype
+// of Person - this is unlike Java language in which Graduate[] is a subtype of
+// Person[].
+//
+// Programming in scala p379
+//
+// sometimes it is necessary to interact with legacy methods in Java that use an 
+// Object array as a means to emulate a generic array. For instance, you might 
+// want to call a sort method like the one described above with an array of 
+// Strings as argument. To make this possible, Scala lets you cast an array of 
+// Ts to an array of any supertype of T: 
+//   scala> val a2: Array[Object] = a1.asInstanceOf[Array[Object]] 
+//   a2: Array[java.lang.Object] = Array(abc) 
+// The cast is always legal at compile-time, and it will always succeed at run- 
+// time, because the JVM’s underlying run-time model treats arrays a covariant, 
+// just as Java the language does. But you might get ArrayStore exceptions 
+// afterwards, again just as you would in Java. 
+//
+// TODO: idea... add some implicits that are drenched with warnings that they should
+// be removed.  The implicits step in for some of these scenarios.
+
+//     byte[] data = new byte[]{(byte)0xCA, (byte)0xFE, (byte)0xBA, (byte)0xBE};
+// 

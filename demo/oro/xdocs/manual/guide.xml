@@ -1,0 +1,62 @@
+<? xml version="1.0" encoding='ISO-8859-1'?>
+<!-- $Id: guide.xml 124053 2005-01-04 01:24:35Z dfs $ -->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+<!ENTITY chapter-preface SYSTEM "guide/chapter-preface.xml">
+<!ENTITY chapter-regex SYSTEM "guide/chapter-regex.xml">
+<!ENTITY package-awk "org.apache.oro.text.awk">
+<!ENTITY package-perl "org.apache.oro.text.perl">
+<!ENTITY package-regex "org.apache.oro.text.regex">
+<!ENTITY package-text "org.apache.oro.text">
+]>
+
+<book id="Jakarta-ORO-Programmer-Guide" lang="en">
+
+  <!-- Header -->
+  <bookinfo>
+    <title>Jakarta ORO Programmer's Guide</title>
+
+    <authorgroup>
+      <author>
+	<firstname>Daniel</firstname>
+	<othername>F.</othername>
+	<surname>Savarese</surname>
+	<affiliation>
+	  <orgname>
+            <ulink url="http://jakarta.apache.org/">
+             The Apache Jakarta Project
+            </ulink>
+          </orgname>
+	  <address><email>dfs at savarese.org</email></address>
+	</affiliation>
+      </author>
+    </authorgroup>
+
+    <revhistory>
+      <revision>
+	<revnumber>0.1</revnumber>
+	<date>July 8, 2001</date>
+	<authorinitials>dfs</authorinitials>
+	<revremark>First draft.</revremark>
+      </revision>
+    </revhistory>
+
+    <copyright>
+      <year>2001</year>
+      <holder>
+        <ulink url="http://www.apache.org/">
+        Apache Software Foundation
+        </ulink>
+      </holder>
+    </copyright>
+  </bookinfo>
+
+&chapter-preface;
+&chapter-regex;
+
+</book>
+
+<!--
+   Local variables:
+    mode: sgml
+   End:
+-->

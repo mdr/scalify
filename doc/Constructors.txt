@@ -1,0 +1,25 @@
+
+public class Card {
+    private final int rank;
+    private final int suit;
+
+    public Card(int rank, int suit) {
+        assert isValidRank(rank);
+        assert isValidSuit(suit);
+        this.rank = rank;
+        this.suit = suit;
+    }
+
+    public int getSuit() { return suit; }
+    public int getRank() { return rank; }
+}
+
+... this should translate to something like ...
+
+class Card(val rank: int, val suit: int) {
+   assert isValidRank(rank)
+   assert isValidSuit(suit)
+
+   def getSuit = suit
+   def getRank = rank
+}

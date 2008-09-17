@@ -1,0 +1,10 @@
+/target
+/misc
+/scratch
+/log
+*.class
+/osgi/workspace
+/osgi/configuration/org.*
+/osgi/configuration/*.log
+/osgi/org.improving.scalify.osgi.jar
+/demo/oroScala

@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!--
+  $Id: users.xml 124053 2005-01-04 01:24:35Z dfs $
+ 
+  Copyright 2000-2005 The Apache Software Foundation
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+<document>
+
+  <properties>
+    <author>Daniel Savarese</author>
+    <title>Projects Using Jakarta-ORO</title>
+  </properties>
+
+  <body>
+
+    <section name="Projects Using Jakarta-ORO">
+
+      <p>
+	These are a just a few of the software projects using
+	Jakarta-ORO.  If you would like to have your project added to
+	this list, please contact the
+	<a href="http://jakarta.apache.org/site/mail.html">oro-dev</a>
+	mailing list.
+      </p>
+      <p>
+	<dl compact="true">
+
+	<dt><a href="http://www.arsdigita.com/products/">
+	       ArsDigita Community System</a></dt>
+	<dd>An open source Java platform for Web application development.</dd>
+
+	<dt><a href="http://www.research.compaq.com/SRC/WebL/">
+            Compaq Web Language</a></dt>
+	<dd>A scripting language for automating tasks on the World
+            Wide Web.</dd>
+
+	<dt><a href="http://cruisecontrol.sourceforge.net/">Cruise Control</a></dt>
+	<dd>A tool for setting up a continuous build process.</dd>
+
+        <dt><a href="http://www.dbinspect.com/">DBInspect</a></dt>
+        <dd>A database inspection tool which eases writing and executing
+        SQL statements against relational databases and  viewing, sorting,
+        searching, filtering, exporting, and updating the results.
+        </dd>
+
+	<dt><a href="http://www.erights.org/">E</a></dt>
+	<dd>A secure distributed object platform and P2P scripting
+	language.</dd>
+
+	<dt><a href="http://home.worldcom.ch/~jmlugrin/fesi/">FESI</a></dt>
+	<dd>Free ECMAScript Interpreter.</dd>
+
+	<dt><a href="http://www.bizilogic.com/findit/">FindIt</a></dt>
+	<dd>A Java GUI application that helps you construct and
+	validate regular expressions.</dd>
+
+	<dt><a href="http://formproc.sourceforge.net/">FormProc</a></dt>
+	<dd>A Java library designed to make web form handling easy.</dd>
+
+	<dt><a href="http://jakarta.apache.org/jmeter/">Jakarta JMeter</a></dt>
+	<dd>A 100% pure Java desktop application designed to load test
+	functional behavior and measure performance. </dd>
+
+	<dt><a href="http://jakarta.apache.org/taglibs/">Jakarta Taglibs</a></dt>
+	<dd>An open source repository for JSP custom taglibs.</dd>
+
+	<dt><a href="http://jakarta.apache.org/velocity/">Jakarta Velocity</a></dt>
+	<dd>A Java-based template engine providing an alternative to JSP.</dd>
+
+	<dt><a href="http://www.hpl.hp.com/semweb/jena/">Jena</a></dt>
+	<dd>A Java framework for writing Semantic Web applications.</dd>
+
+	<dt><a href="http://jpublish.sourceforge.net/">JPublish</a></dt>
+	<dd>A Web publishing framework that merges Velocity with a
+	content repository and application control framework.</dd>
+
+	<dt><a href="http://joist.tigris.org/">Joist</a></dt>
+	<dd>Java Open Infrastructure of Servlets and Templates.</dd>
+
+	<dt><a href="http://jwma.sourceforge.net/">jwma</a></dt>
+	<dd>A WebMail implementation in Java.</dd>
+
+	<dt><a href="http://www.jython.org/">Jython</a></dt>
+	<dd>An implementaiton of Python in Java.</dd>
+
+	<dt><a
+	href="http://developer.netscape.com/tech/directory/downloads.html">
+	Netscape Directory SDK for Java</a></dt>
+	<dd>A Java LDAP library.</dd>
+
+	<dt><a href="http://www.openly.com/SLinkS/">S-Link-S</a></dt>
+	<dd>Scholarly Link Specification Framework.</dd>
+
+	<dt><a href="http://www.snipsnap.org/">SnipSnap</a></dt>
+	<dd>SnipSnap is a free and easy to install Weblog and Wiki
+	Software written in Java.</dd>
+
+	<dt><a href="http://chain.mtk.nao.ac.jp/DASH/SASH/">SASH</a></dt>
+	<dd>Standalone Analysis System Hierarchy, an object-oriented
+	data reduction and analysis system.</dd>
+
+	<dt><a href="http://tambora.zenplex.org/">Tambora</a></dt>
+	<dd>An open source Web-based Business to Business (B2B)
+	application designed to facilitate information exchange
+	between business partners in the printing and publishing
+	industries.</dd>
+
+	<dt><a href="http://tuckey.org/urlrewrite/">UrlRewriteFilter</a></dt>
+	<dd>An open source servlet filter that lets users of Tomcat
+	(and other servlet containers) rewrite URLs (as you would in
+	Apache httpd using mod_rewrite).</dd>
+
+	</dl>
+      </p>
+	
+    </section>
+
+  </body>
+
+</document>
+

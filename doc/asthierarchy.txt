@@ -1,0 +1,92 @@
+public abstract class AbstractTypeDeclaration extends BodyDeclaration 
+public abstract class Annotation extends Expression implements IExtendedModifier 
+public class AnnotationTypeDeclaration extends AbstractTypeDeclaration 
+public class AnnotationTypeMemberDeclaration extends BodyDeclaration 
+public class AnonymousClassDeclaration extends ASTNode 
+public class ArrayAccess extends Expression 
+public class ArrayCreation extends Expression 
+public class ArrayInitializer extends Expression 
+public class ArrayType extends Type 
+public class AssertStatement extends Statement 
+public class Assignment extends Expression 
+public class Block extends Statement 
+public final class BlockComment extends Comment 
+public abstract class BodyDeclaration extends ASTNode 
+public class BooleanLiteral extends Expression 
+public class BreakStatement extends Statement 
+public class CastExpression extends Expression 
+public class CatchClause extends ASTNode 
+public class CharacterLiteral extends Expression 
+public class ClassInstanceCreation extends Expression 
+public abstract class Comment extends ASTNode 
+public class CompilationUnit extends ASTNode 
+public class ConditionalExpression extends Expression 
+public class ConstructorInvocation extends Statement 
+public class ContinueStatement extends Statement 
+public class DoStatement extends Statement 
+public class EmptyStatement extends Statement 
+public class EnhancedForStatement extends Statement 
+public class EnumConstantDeclaration extends BodyDeclaration 
+public class EnumDeclaration extends AbstractTypeDeclaration 
+public abstract class Expression extends ASTNode 
+public class ExpressionStatement extends Statement 
+public class FieldAccess extends Expression 
+public class FieldDeclaration extends BodyDeclaration 
+public class ForStatement extends Statement 
+public class IfStatement extends Statement 
+public class ImportDeclaration extends ASTNode 
+public class InfixExpression extends Expression 
+public class Initializer extends BodyDeclaration 
+public class InstanceofExpression extends Expression 
+public class Javadoc extends Comment 
+public class LabeledStatement extends Statement 
+public final class LineComment extends Comment 
+public final class MarkerAnnotation extends Annotation 
+public class MemberRef extends ASTNode implements IDocElement 
+public class MemberValuePair extends ASTNode 
+public class MethodDeclaration extends BodyDeclaration 
+public class MethodInvocation extends Expression 
+public class MethodRef extends ASTNode implements IDocElement 
+public class MethodRefParameter extends ASTNode 
+public final class Modifier extends ASTNode implements IExtendedModifier 
+public abstract class Name extends Expression implements IDocElement 
+public final class NormalAnnotation extends Annotation 
+public class NullLiteral extends Expression 
+public class NumberLiteral extends Expression 
+public class PackageDeclaration extends ASTNode 
+public class ParameterizedType extends Type 
+public class ParenthesizedExpression extends Expression 
+public class PostfixExpression extends Expression 
+public class PrefixExpression extends Expression 
+public class PrimitiveType extends Type 
+public class QualifiedName extends Name 
+public class QualifiedType extends Type 
+public class ReturnStatement extends Statement 
+public class SimpleName extends Name 
+public class SimpleType extends Type 
+public final class SingleMemberAnnotation extends Annotation 
+public class SingleVariableDeclaration extends VariableDeclaration 
+public abstract class Statement extends ASTNode 
+public class StringLiteral extends Expression 
+public class SuperConstructorInvocation extends Statement 
+public class SuperFieldAccess extends Expression 
+public class SuperMethodInvocation extends Expression 
+public class SwitchCase extends Statement 
+public class SwitchStatement extends Statement 
+public class SynchronizedStatement extends Statement 
+public final class TagElement extends ASTNode implements IDocElement 
+public final class TextElement extends ASTNode implements IDocElement 
+public class ThisExpression extends Expression 
+public class ThrowStatement extends Statement 
+public class TryStatement extends Statement 
+public abstract class Type extends ASTNode 
+public class TypeDeclaration extends AbstractTypeDeclaration 
+public class TypeDeclarationStatement extends Statement 
+public class TypeLiteral extends Expression 
+public class TypeParameter extends ASTNode 
+public abstract class VariableDeclaration extends ASTNode 
+public class VariableDeclarationExpression extends Expression 
+public class VariableDeclarationFragment extends VariableDeclaration 
+public class VariableDeclarationStatement extends Statement 
+public class WhileStatement extends Statement 
+public class WildcardType extends Type

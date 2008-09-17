@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text
+END
+GenericPatternCache.class
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/GenericPatternCache.class
+END
+GlobCompiler.class
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/GlobCompiler.class
+END
+DefaultMatchAction.class
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/DefaultMatchAction.class
+END
+PatternCache.class
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/PatternCache.class
+END
+PatternCacheRandom.class
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/PatternCacheRandom.class
+END
+PatternCacheLRU.class
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/PatternCacheLRU.class
+END
+PatternCacheFIFO.class
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/PatternCacheFIFO.class
+END
+MatchActionInfo.class
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/MatchActionInfo.class
+END
+MalformedCachePatternException.class
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/MalformedCachePatternException.class
+END
+PatternCacheFIFO2.class
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/PatternCacheFIFO2.class
+END
+MatchAction.class
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/MatchAction.class
+END
+MatchActionProcessor.class
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/repos/asf/!svn/ver/54476/jakarta/oro/trunk/docs/classes/org/apache/oro/text/MatchActionProcessor.class
+END

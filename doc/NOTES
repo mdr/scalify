@@ -1,0 +1,48 @@
+
+  
+*** SOURCES  ***
+
+* org.eclipse.jdt.internal.launching.JavaLaunchableTester
+* PolyMap in scalax
+
+*** MISC ***
+
+* scala.collection.jcl.Conversions._
+* Java has four namespaces: fields, methods, types, packages
+* Scala has two: values (fields, methods, packages, and singleton objects) and types (class and trait names)
+* ack -lui "package scala[^.]" |grep -v svn-base |xargs grep -h class
+
+*** IDEAS ***
+
+* Leverage scala-rules to do an AST->AST transformation.
+* Abstract emissions properly and use combinators
+* Implicit conversion from any rhs type to lhs type on assignment?
+* add an implicit parameter like implicit mf: Manifest[A] and then mf.erasure would give you the Class that
+  you can then call isInstance on
+
+*** TYPES ***
+
+* Modify symbol's type so that raw types C are converted to existentials C[T] forSome { type T }.
+
+
+*** SCRATCH ***
+
+
+You can avoid the case matching by introducing a dynamic dispatch method on Choice,
+ def ~(f : => Choice[Echo,Answer]) : Echo = this match {
+   case EOk() => f.react(_, EOk(), _.echo)
+   case err   => err
+ }                                                                              
+
+sealed abstract class Choice[A,B] {
+  def react(fa: A => Unit, fb: B => Unit, fu: => Unit): Unit
+}                                                                               
+case class ChoiceA[A,B](a: A) extends Choice[A,B] {
+  def react(fa: A => Unit, fb: B => Unit, fu: => Unit) = fa(a)
+}                                                                               
+case class ChoiceB[A,B](b: B) extends Choice[A,B] {
+  def react(fa: A => Unit, fb: B => Unit, fu: => Unit) = fb(b)
+}                                                                               
+case class ChoiceUnit[A,B] extends Choice[A,B] {
+  def react(fa: A => Unit, fb: B => Unit, fu: => Unit) = fu
+}

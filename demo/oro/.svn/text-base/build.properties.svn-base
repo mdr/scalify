@@ -1,0 +1,116 @@
+#
+# $Id$
+# 
+#  Copyright 2000-2005 The Apache Software Foundation
+#  
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+# This file controls various properties which may be set during a build.
+#
+# This file is intended to be modified by users to accommodate their own
+# working practices, or overridden by one of the property files specified
+# in build.xml.
+#
+
+# Name and version information
+name=Jakarta ORO
+project=jakarta-oro
+version=2.1-dev-1
+
+# Name and version of the project
+project.name=${project}-${version}
+
+top.dir=.
+year=2000-2005
+
+jakarta-site2.dir=../jakarta-site2
+
+code.src=${top.dir}/src
+build.src=${top.dir}/src/java
+build.dest=${top.dir}/classes
+build.tests=${build.dest}/tests
+
+javadoc.destdir=${top.dir}/docs/api
+final.name=${project}-${version}
+final.dir=${top.dir}/${final.name}
+javac.debug=off
+javac.optimize=on
+javac.deprecation=off
+javac.source=1.3
+javac.target=1.3
+ant.home=.
+docs.src=${top.dir}/xdocs
+docs.dest=${top.dir}/docs
+
+# jar file names
+jar.all.name=${project}-${version}.jar
+jar.core.name=${project}-core-${version}.jar
+jar.awk.name=${project}-awk-${version}.jar
+jar.glob.name=${project}-glob-${version}.jar
+jar.java.name=${project}-java-${version}.jar
+jar.perl5.name=${project}-perl5-${version}.jar
+jar.util.name=${project}-util-${version}.jar
+
+#
+# The stuff below is for when we take another pass at cleaning up
+# build.xml and making the properties more consistent.
+#
+
+# Temporary working directory.  Specified on a per user basis
+#tmp.dir=/tmp/${user.name}
+tmp.dir=.
+
+# Build directory
+##build.dir=${tmp.dir}/${project.name}/build
+#build.dir=${tmp.dir}/build
+#src.dir=${top.dir}/src
+#src.java.dir=${src.dir}/java
+#doc.dir=${top.dir}/docs
+#doc.java.dir=${doc.dir}/api
+##doc.user.dir=${doc.dir}/user
+##doc.printer.dir=${doc.dir}/printer
+
+# Test results directory
+#check.dir=${tmp.dir}/${project.name}/check
+
+# Build properties
+#build.debug=off
+#build.deprecation=off
+#build.optimize=on
+#build.bin.dir=${build.dir}/bin
+#build.lib.dir=${build.dir}/lib
+#build.src.dir=${build.dir}/src/java
+#build.data.dir=${build.dir}/conf
+#build.doc.dir=${build.dir}/docs
+#build.doc.java.dir=${build.dir}/docs/api
+
+# Installation properties
+#install.dir=./${project.name}
+#install.bin.dir=${install.dir}/bin
+#install.lib.dir=${install.dir}/lib
+#install.src.dir=${install.dir}/src/java
+#install.data.dir=${install.dir}/conf
+#install.doc.dir=${install.dir}/docs
+#install.doc.java.dir=${build.dir}/docs/api
+
+# Document constants
+company.name=The Apache Software Foundation
+company.id=org.apache
+  
+copyright.date=2000-2005
+copyright.message=Copyright &#169; ${copyright.date} ${company.name}. All Rights Reserved.
+
+# Time stamp patterns
+#timestamp.fullTimeDate.pattern=EEEE, d MMMM yyyy hh:mm:ss aa (z)
+#timestamp.longTimeDate.pattern=EEEE, d MMMM yyyy hh:mm:ss aa
+#timestamp.shortTimeDate.pattern=dd/MM/yyyy HH:mm:ss

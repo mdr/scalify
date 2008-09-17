@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/asf/!svn/ver/390702/jakarta/oro/trunk/src/java/org/apache/oro/text/perl
+END
+Perl5Util.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/repos/asf/!svn/ver/390702/jakarta/oro/trunk/src/java/org/apache/oro/text/perl/Perl5Util.java
+END
+MalformedPerl5PatternException.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/perl/MalformedPerl5PatternException.java
+END
+ParsedSubstitutionEntry.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/perl/ParsedSubstitutionEntry.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/text/perl/package.html
+END

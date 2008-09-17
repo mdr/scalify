@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/io
+END
+RegexFilenameFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/io/RegexFilenameFilter.java
+END
+AwkFilenameFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/io/AwkFilenameFilter.java
+END
+GlobFilenameFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/io/GlobFilenameFilter.java
+END
+Perl5FilenameFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/io/Perl5FilenameFilter.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/repos/asf/!svn/ver/124053/jakarta/oro/trunk/src/java/org/apache/oro/io/package.html
+END

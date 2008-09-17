@@ -1,0 +1,11 @@
+-classpath: ../target/classes, plugins
+Bundle-Version: 0
+Export-Package: org.improving.scalify,org.improving.scalify.osgi
+Import-Package: *
+# Private-Package: net.lag.configgy, net.lag.logger
+Include-Resource: @../lib/configgy.jar, @../lib/scalaz.jar, @../lib/scalax.jar
+Bundle-Activator: org.improving.scalify.osgi.Activator
+Service-Component: org.improving.scalify.osgi.TranslatorImpl; \ 
+  provide:=org.improving.scalify.osgi.Translator; \ 
+  provide:=org.eclipse.osgi.framework.console.CommandProvider; \
+  properties:="service.ranking=2000"

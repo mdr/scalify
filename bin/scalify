@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+
+osgi=`dirname $0`/../osgi
+cd $osgi
+
+rlwrap java -Xms512M -Xmx1g -Xss4m -jar org.eclipse.osgi_3.4.0.v20080605-1900.jar -configuration configuration -console
