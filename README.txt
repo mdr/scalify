@@ -4,12 +4,12 @@ Early release notes:
 * I'm the only one who has ever used this so there could be unintentional dependencies.
 * I only use OS X so if it works on other platforms at this point that's a lucky accident.
 * It lacks serious polish but that might be for the best since it doesn't exactly work yet.
-* I learned scala while I wrote this and there's plenty of evidence of it.  I'm sure there
-    are far superior ways to do any number of things - I'm all ears!
+* I learned scala while I wrote this and there's plenty of evidence of it.  I'm sure there are far superior ways to do any number of things - I'm all ears!
 * I haven't bothered translating comments over yet, coming soon.
 * Generics are not yet supported, though they definitely will be.  I'd like to get 1.4 translations working and bulletproof before I resume work on java 5.
 * If eclipse can't compile the java source you give it, the translation will not work - at all.  You must satisfy eclipse.
 * I've had the translated source looking far more attractive in the past than it does now, but after running into a few too many weird cases involving punctuation I decided aesthetics were a premature optimization.  It'll be beautiful in the end.
+* The pretty printer is an unholy, bad-organic patchwork of pain.  Another swing at that one soon.
 
 Additional software you will need:
 
