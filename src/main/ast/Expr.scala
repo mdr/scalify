@@ -249,6 +249,14 @@ class ThisExpression(override val node: dom.ThisExpression) extends Expression(n
 	override def emitDirect: Emission = INVOKE(qualEmit, THIS)
 }
 
+class NumberLiteral(override val node: dom.NumberLiteral) extends Expression(node)
+{
+	lazy val NumberLiteral(token) = node
+	lazy val default = SToken.emitLiteral(token)
+	
+	override def emitDirect: Emission = if (token startsWith "-") PARENS(default) else default
+}
+
 class Expression(override val node: dom.Expression) extends Node(node) with TypeBound
 {
 	def tb = node.resolveTypeBinding
@@ -260,7 +268,6 @@ class Expression(override val node: dom.Expression) extends Node(node) with Type
 
 	def emitDirect: Emission = node match {
 		case x: dom.NullLiteral => NULL
-		case NumberLiteral(token) => SToken.emitLiteral(token)
 		case CharacterLiteral(escapedValue) => Emit(escapedValue)
 		case BooleanLiteral(booleanValue) => if (booleanValue) TRUE else FALSE
 		case StringLiteral(escapedValue) => SToken.emitLiteral(escapedValue)

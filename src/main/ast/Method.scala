@@ -38,7 +38,7 @@ with MethodBound with NamedDecl with Overrider
 	lazy val dummy: List[Emission] = if (needsDummy) List(emitDefaultReturnValue) else Nil
 	lazy val needsDummy: Boolean = 
 		!localStmts.isEmpty &&
-		(if (isVoid) localStmts.last.isExpandableStmt
+		(if (isVoid) localStmts.last.isExpandableStmt || localStmts.last.isDeclarationStmt
 		else localStmts.last match { case _: dom.ReturnStatement => false ; case _ => true })
 	
 	override def ppString = Some(toString)

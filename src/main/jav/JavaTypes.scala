@@ -27,7 +27,9 @@ sealed class JPrimitive(val name: String, val code: PT.Code) extends JAnyVal {
 	
 	def emitBoxed: EFilter = (x: Emission) => INVOKE(emitAsRef, VALUEOF <~> PARENS(x))
 	def emitAsRef: Emission = if (code == PT.VOID) UNIT else JavaTypes.boxedTypes.find(_.code == code).get.emit
-	def emitCast: EFilter = (x: Emission) => INVOKE(x, emitString("to") <~> emit)
+	def emitCast: EFilter = (x: Emission) => 		// XXX
+		if (x.s startsWith "-") INVOKE(PARENS(x), emitString("to") <~> emit)
+		else INVOKE(x, emitString("to") <~> emit)
 			
 	override def toString: String = name.capitalize
 }

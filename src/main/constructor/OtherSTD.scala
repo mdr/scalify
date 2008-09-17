@@ -23,22 +23,23 @@ class Interface(node: dom.TypeDeclaration) extends TypeDeclaration(node)
 	lazy val isAnySuperSplit: Boolean = (superType.toList ::: superIntTypes).exists(_.tb.isSplitType) | false
 	lazy val valuesName: Emission = name <~> emitString("Vals")
 	lazy val valuesBody: Emission = if (fields.isEmpty) NL else BRACES(REP(fields.map(_.emitAsVal)))
+	lazy val allSupers: List[dom.Type] = superType.toList ::: superIntTypes
 	
 	lazy val superValuesEmission: Emission = {
-		val sups = (superType.toList ::: superIntTypes).filter(_.tb.isSplitType)
+		val splitSups = allSupers.filter(_.tb.isSplitType)
 		def emitSuperInts(xs: List[dom.Type]): Emission = xs match {
 			case Nil => Nil
 			case x :: rest => WITH ~ x.emitExprWhenSuper(None) <~> emitString("Vals") ~ emitSuperInts(rest)
 		}
 		
-		sups match {
+		splitSups match {
 			case Nil => Nil
 			case x :: rest => EXTENDS ~ x.emitExprWhenSuper(None) <~> emitString("Vals") ~ emitSuperInts(rest)
 		}
 	}
 	lazy val superInstanceEmission: Emission =
 		if (fields.isEmpty) Nil 
-		else if (superType.isEmpty) EXTENDS ~ valuesName 
+		else if (allSupers.isEmpty) EXTENDS ~ valuesName 
 		else WITH ~ valuesName
 			
 	override def emitAbstract: Emission = ABSTRACT

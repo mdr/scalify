@@ -168,7 +168,7 @@ trait Emissions
 			else l ~ xs ~ r
 		}
 		
-		def s: String = xs.map(_.s).mkString(" ")
+		def s: String = xs.map(_.s).mkString
 		
 		// def contents: String = (xs: List[Emit]).reduceLeft { case (Emit(s1), Emit(s2)) => s1.toString + s2.toString }
 	}

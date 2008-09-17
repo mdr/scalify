@@ -84,6 +84,13 @@ abstract trait ASTNodeSafe extends TreeSafe
 		case _ => false
 	}
 	
+	// XXX
+	def isDeclarationStmt = node match {
+		case _:dom.VariableDeclaration => true
+		case _:dom.VariableDeclarationStatement => true
+		case _ => false
+	}
+	
 	// if this node is under a constructor
 	def isInConstructor: Boolean = findEnclosingMethod.map(_.isConstructor) getOrElse false
 	def isInAnonDeclaration: Boolean = ancestors.exists { case _: dom.AnonymousClassDeclaration => true ; case _ => false }
