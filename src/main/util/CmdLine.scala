@@ -13,7 +13,7 @@ object ScalifyOptions extends CommandLineParser {
 	val commentsFlag = new Flag('j', "java-comments", "Include original java source as comment") with AllowAll
 	val verboseFlag = new Flag('v', "verbose", "Verbose debugging output") with AllowAll
 
-	val usage = "Usage: scalify <indir> [-jv] [-d basedir] [-o outdir]"
+	val usage = "Usage: scalify <indir> [-jv] [-d basedir] [-o outdir] [-c classpath]"
 	
     override def helpHeader = """
         | Usage: scalify <indir> [options]

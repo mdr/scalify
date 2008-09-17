@@ -82,6 +82,7 @@ end
 					println("Classpath additions: " + cps.mkString(":"))
 				
 				val result = getTranny.translate(in, out, cps)
+				translationSupport(out)
 				println("\nResult: " + result)
 		}
 	}
