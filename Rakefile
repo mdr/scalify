@@ -1,7 +1,12 @@
 require 'find'
 
-PLUGINS='osgi/plugins'
-LIBS="#{PLUGINS}/\* lib/configgy.jar lib/scalaz.jar lib/scalax.jar"
+PLUGINS = 
+  if (ENV["ECLIPSE_HOME"] && File.exists?(ENV["ECLIPSE_HOME"] + "/plugins")) 
+    then ENV["ECLIPSE_HOME"] + '/plugins/*'
+    else 'osgi/plugins/*'
+  end
+  
+LIBS="#{PLUGINS} lib/configgy.jar lib/scalaz.jar lib/scalax.jar"
 CP = "-classpath " + LIBS.split.join(":")
 DESTPATH = "target/classes"
 SOURCEPATH = 'src/main/'
