@@ -7,12 +7,9 @@ Early release notes:
 * I learned scala while I wrote this and there's plenty of evidence of it.  I'm sure there
     are far superior ways to do any number of things - I'm all ears!
 * I haven't bothered translating comments over yet, coming soon.
-* Generics are not yet supported, though they definitely will be.  I'd like to get 1.4 translations working and bulletproof
-    before I resume work on java 5.
+* Generics are not yet supported, though they definitely will be.  I'd like to get 1.4 translations working and bulletproof before I resume work on java 5.
 * If eclipse can't compile the java source you give it, the translation will not work - at all.  You must satisfy eclipse.
-* I've had the translated source looking far more attractive in the past than it does now, but after running
-    into a few too many weird cases involving punctuation I decided aesthetics were a premature optimization.
-    It'll be beautiful in the end.
+* I've had the translated source looking far more attractive in the past than it does now, but after running into a few too many weird cases involving punctuation I decided aesthetics were a premature optimization.  It'll be beautiful in the end.
 
 Additional software you will need:
 
