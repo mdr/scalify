@@ -1,6 +1,7 @@
 package org.improving.scalify
 
 import Scalify._
+import org.eclipse.jdt.core.dom.{ PrimitiveType => PT }
 import org.eclipse.jdt.core.dom
 import scalaz.OptionW._
 
@@ -183,8 +184,8 @@ class ArrayCreation(override val node: dom.ArrayCreation) extends Expression(nod
 class ArrayInitializer(override val node: dom.ArrayInitializer) extends Expression(node)
 {
 	lazy val ArrayInitializer(exprs) = node
-	lazy val v = findEnclosingVariable
 	lazy val jtype = tb.getElementType
+	// lazy val v = findEnclosingVariable
 		
 	// Examples such as:  return (String[])contents.toArray(new String[] {});
 	// require us to special case empty literals
@@ -253,7 +254,7 @@ class ThisExpression(override val node: dom.ThisExpression) extends Expression(n
 		qualifier match {
 			case None => Nil
 			case Some(TypeBinding(tb)) if tb.isFactoryType && mb.isConstructor => 
-				log.trace("ThisExpression: matched emitClassNameForMethodBinding")
+				log.trace("ThisExpression: matched emitClassNameForMethodBinding ")
 				tb.getFactoryType.get.emitClassNameForMethodBinding(mb)
 			case Some(q) => q.emit
 		}
@@ -265,8 +266,23 @@ class NumberLiteral(override val node: dom.NumberLiteral) extends Expression(nod
 {
 	lazy val NumberLiteral(token) = node
 	lazy val default = SToken.emitLiteral(token)
+	lazy val arrayInitializer: Option[dom.ArrayInitializer] = ancestors flatMap { case x: dom.ArrayInitializer => List(x) ; case _ => Nil } firstOption
+	lazy val elementType: Option[TBinding] = arrayInitializer match {
+		case Some(x) => Some(x.tb.getElementType)
+		case _ => None
+	}
 	
-	override def emitDirect: Emission = if (token startsWith "-") PARENS(default) else default
+	// XXX this is clearly insufficient
+	private def castElement(x: Emission): Emission = elementType match {
+		case Some(el) if !el.isEqualTo(tb) => 
+			if (el.isSomeType(PT.LONG)) x <~> emitString("L")
+			else if (el.isSomeType(PT.DOUBLE) && !tb.isSomeType(PT.FLOAT)) x <~> emitString("D")
+			else if (el.isSomeType(PT.FLOAT) && !tb.isSomeType(PT.DOUBLE)) x <~> emitString("F")
+			else x
+		case _ => x
+	}
+
+	override def emitDirect: Emission = castElement(if (token startsWith "-") PARENS(default) else default)
 }
 
 class VariableDeclarationExpression(override val node: dom.VariableDeclarationExpression) extends Expression(node)

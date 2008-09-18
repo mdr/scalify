@@ -8,4 +8,3 @@ General:
 
 * projections in for-comprehensions for lazy evaluation
 * revisit val => volatile var to see if it can be avoided
-* 

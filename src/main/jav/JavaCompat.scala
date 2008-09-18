@@ -25,6 +25,10 @@ object Compat
 	implicit def longToInt(x: Long): Int = x.toInt
 	implicit def intToShort(x: Int): Short = x.toShort
 	implicit def intToByte(x: Int): Byte = x.toByte
+	// implicit def longToDouble(x: Long): Double = x.toDouble
+	// implicit def intToDouble(x: Int): Double = x.toDouble
+	// implicit def longToFloat(x: Long): Float = x.toFloat
+	// implicit def intToFloat(x: Int): Float = x.toFloat
 
 	// don't want to clutter nested return situations
 	implicit def unitToContinue(x: Unit): ReturnBox[Nothing] = Void
