@@ -12,6 +12,7 @@ DESTPATH = "target/classes"
 SOURCEPATH = 'src/main/'
 FSC = 'fsc -deprecation -unchecked'
 JAVAOPTS = "-Xms512M -Xmx1g -Xss4m"
+VMARGS = "-vmargs -XX:+UseParallelGC"
 # -verbose -Xfuture -Xcheckinit -Xprint:typer -Ybrowse:typer
 
 OSGIJAR = "osgi/org.improving.scalify.osgi.jar"
@@ -84,7 +85,7 @@ JHAT = "-agentlib:hprof=cpu=samples,interval=20,depth=3"
 
 task :console do
   Dir.chdir("osgi")
-  sh "rlwrap -c java #{JAVAOPTS} #{OSGIOPTS}"
+  sh "rlwrap -c java #{JAVAOPTS} #{OSGIOPTS} #{VMARGS}"
   Dir.chdir("..")
 end
 

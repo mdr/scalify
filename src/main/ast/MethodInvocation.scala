@@ -45,7 +45,7 @@ class MethodInvocation(override val node: dom.MethodInvocation) extends Expressi
 		expr match {
 			case Some(JBoxed(anyVal))		=> emitJLRoot ~ INVOKE(anyVal.emit, name.emitUnqualified) <~> boxedArgs	
 			case _							=> qname <~> boxedArgs
-		}	
+		}
 	}
 	
 	private def declaresLocalVarNamed(v: dom.SimpleName): Boolean = {
@@ -113,7 +113,10 @@ class MethodInvocation(override val node: dom.MethodInvocation) extends Expressi
 	
 	private def anyTransforms: Option[Emission] = 
 		// we usually leave off parens on no-argument calls, but if the method is varargs scala gets confused
-		if (mb.isVarargs) Some(emitInvocation <~> PARENS) else None
+		if (mb.isVarargs) Some(emitInvocation <~> PARENS)
+		// the clone method on arrays is not exposed (yet) in scala
+		else if (expr.isDefined && (expr.get.tb.isArray && method == "clone" && args.size == 0)) Some(INVOKE(expr.get, emitString("toArray")))
+		else None
 
 	// looks for methods with names like toFloat, parseDouble, etc.
 	private def isValueBox(method: String, prefix: String): Boolean =
