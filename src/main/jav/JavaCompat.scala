@@ -14,6 +14,9 @@ object Compat
         def subList(from: Int, to: Int): List[T] = xs.slice(from, to)
     }
 
+    // "covariant" arrays
+	implicit def covariantArrays[T, U >: T](xs: Array[T]): Array[U] = xs.asInstanceOf[Array[U]]
+
 	// talk about a problem solver
 	implicit def castClassObjects[T, U](x: Class[T]): Class[U] = x.asInstanceOf[Class[U]]
 
@@ -66,10 +69,6 @@ object Compat
 
 	// we want to use java collections in for comprehensions
     // implicit def comprehensibleCollections[T](x: java.util.Collection[T]): List[T] = x.toArray.toList
-	
-    // "covariant" arrays
-	//     implicit def covariantArrays[T, U >: T](xs: Array[T]): Array[U] =
-	// xs.asInstanceOf[Array[U]]
 
     // 
     // // java generics become what we expect
