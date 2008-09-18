@@ -75,7 +75,7 @@ class STDWithPrimary(node: dom.TypeDeclaration, con: dom.MethodDeclaration) exte
 	override def emitTypeParameters: Emission = TYPEARGS(typeParams ::: pc.typeParams)	
 	
 	def emitInstancePart: Emission = {
-		emitSTDHeader(emitTypeParameters, METHODARGS(pc.parameterList.emitList), pc.emitSuperExpr) ~
+		emitSTDHeader(emitTypeParameters, METHODARGS(pc.parameterList.emitPrimaryList), pc.emitSuperExpr) ~
 		emitSTDBody(emitConstructorDefinitions ~ REP(nonConstructors))
 	}
 

@@ -44,7 +44,8 @@ extends Constructor(node)
 		else Nil
 	
 	override def emitDirect: Emission = emitBody
-	override def emitBody: Emission = REP(parameterList.emitRenamings) ~ wrapEarlyReturn(REP(emitBodyStmts)) ~ NL
+	override def emitBody: Emission = wrapEarlyReturn(REP(emitBodyStmts)) ~ NL
+	// override def emitBody: Emission = REP(parameterList.emitRenamings) ~ wrapEarlyReturn(REP(emitBodyStmts)) ~ NL
 }
 
 class DependentConstructor(node: dom.MethodDeclaration)

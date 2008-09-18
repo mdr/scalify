@@ -12,7 +12,7 @@ DESTPATH = "target/classes"
 SOURCEPATH = 'src/main/'
 FSC = 'fsc -deprecation -unchecked'
 JAVAOPTS = "-Xms512M -Xmx1g -Xss4m"
-VMARGS = "-vmargs -XX:+UseParallelGC"
+VMARGS = "-vmargs -d64 -XX:+UseParallelGC"
 # -verbose -Xfuture -Xcheckinit -Xprint:typer -Ybrowse:typer
 
 OSGIJAR = "osgi/org.improving.scalify.osgi.jar"
