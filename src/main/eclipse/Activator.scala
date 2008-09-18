@@ -46,15 +46,17 @@ with CommandProvider
 	def stop(bc: BundleContext) = println("Scalify service terminated")
 	
 	
-	private def translationSupport(out: File) = {
+	private def translationSupport(out: File, cps: List[File]) = {
 		val scalifyJar = new File(runDir, "../lib/scalify.jar")
 		Runtime.getRuntime.exec(Array("jar", "xf", scalifyJar.getCanonicalPath), null, out)
 		val rake = new FileWriter(out.getCanonicalPath + "/Rakefile")
+		val classpath = if (cps.isEmpty) "" else "-cp " + cps.map(_.getCanonicalPath).reduceLeft(_ + ":" + _) + ":."
 		rake.write("""
 task :default do
-  sh "fsc `find . -name '*.scala'`"
+  sh "fsc ##CP## `find . -name '*.scala'`"
 end
-"""		)
+""".replaceAll("##CP##", classpath))
+
 		rake.close
 	}
 	
@@ -82,7 +84,7 @@ end
 					println("Classpath additions: " + cps.mkString(":"))
 				
 				val result = getTranny.translate(in, out, cps)
-				translationSupport(out)
+				translationSupport(out, cps)
 				println("\nResult: " + result)
 		}
 	}
@@ -125,7 +127,7 @@ end
 		val out = new File(runDir, "../demo/oroScala")
 		
 		val result = getTranny.translate(in, out, Nil)
-		translationSupport(out)
+		translationSupport(out, Nil)
 		println(result)
 		println("If all went well, your scala files are in: " + out.getCanonicalPath)
 	}

@@ -1,4 +1,11 @@
 
+Look at:
+
 * http://code.google.com/p/bushel/
 * https://hudson.dev.java.net/
 
+General:
+
+* projections in for-comprehensions for lazy evaluation
+* revisit val => volatile var to see if it can be avoided
+* 

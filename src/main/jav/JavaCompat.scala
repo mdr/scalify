@@ -18,6 +18,8 @@ object Compat
 	implicit def castClassObjects[T, U](x: Class[T]): Class[U] = x.asInstanceOf[Class[U]]
 
 	// i'm sure it'll fit
+	implicit def doubleToFloat(x: Double): Float = x.toFloat
+	implicit def longToInt(x: Long): Int = x.toInt
 	implicit def intToShort(x: Int): Short = x.toShort
 	implicit def intToByte(x: Int): Byte = x.toByte
 
