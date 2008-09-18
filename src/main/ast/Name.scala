@@ -72,6 +72,15 @@ class QualifiedVariableName(override val node: dom.QualifiedName, vb: VBinding) 
 		case SimpleName("Math") :: SimpleName("PI") :: Nil => emitString("Math.Pi")
 		case _ => super.emitDirect
 	}
+	
+	private def staticTypeRef: Option[Type] =
+		if (!vb.isStatic) None
+		else vb.findVariableDeclaration.map(_.jtype)
+		
+	private def isStaticBinaryRef = vb.isStatic && (staticTypeRef.flatMap(_.itype).map(_.isBinary) | false)	
+	
+	override def isStaticReference = isStaticBinaryRef || super.isStaticReference		
+	override def emitNameAsStaticRef: Emission = staticTypeRef.map(x => emitString(x.tb.fqname + "." + currentName)) | super.emitNameAsStaticRef
 }
 
 abstract class VariableName(node: dom.Name, val vb: VBinding) extends Name(node) with VariableBound
