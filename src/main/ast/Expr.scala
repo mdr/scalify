@@ -257,9 +257,18 @@ class NumberLiteral(override val node: dom.NumberLiteral) extends Expression(nod
 	override def emitDirect: Emission = if (token startsWith "-") PARENS(default) else default
 }
 
+class VariableDeclarationExpression(override val node: dom.VariableDeclarationExpression) extends Expression(node)
+{
+	lazy val VariableDeclarationExpression(modifiers, jtype, frags) = node
+	override def allFragments: List[dom.VariableDeclarationFragment] = frags
+	
+    override def emitDirect: Emission = REP(frags, VAR ~ _ ~ NL)
+}
+
 class Expression(override val node: dom.Expression) extends Node(node) with TypeBound
 {
 	def tb = node.resolveTypeBinding
+	def allFragments: List[dom.VariableDeclarationFragment] = Nil
 
 	def emitCastTo(to: Emission): Emission = INVOKE(node, ASINSTANCEOF) <~> BRACKETS(to)
 	def emitCastToInt(expr: dom.Expression): Emission = if (expr.isInt) expr else INVOKE(expr, Emit("toInt"))
@@ -275,7 +284,6 @@ class Expression(override val node: dom.Expression) extends Node(node) with Type
 		case ParenthesizedExpression(expr) => PARENS(expr)
 		case ArrayAccess(array, index) => array <~> PARENS(index)
 		case InstanceofExpression(leftOperand, rightOperand) => INVOKE(leftOperand, ISINSTANCEOF) <~> BRACKETS(rightOperand)
-		case VariableDeclarationExpression(_, _, frags) => REP(frags, VAR ~ _ ~ NL)
 		
 		case _ => ERROR("Unhandled Expr " + node.getClass.getName)
 	}	

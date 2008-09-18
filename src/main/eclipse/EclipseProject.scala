@@ -85,14 +85,15 @@ class ProjectTranslator(val eproj: EclipseProject)
 		Global.javaProject = eproj.javaProject
 
 		println("Resolving namespace conflicts ... ")
-		val nodesToRename: List[ASTNode] = Forest.search(Renaming.findCollisions(_)).removeDuplicates
-		println(nodeInfo(nodesToRename))
-
-		for (node <- nodesToRename) 
-			Forest.renamer ! RenameNodeMsg(node)
-
-		// for collisions among collisions
-		doAnotherRename(nodesToRename)
+		Renaming.performAllRenaming
+		// val nodesToRename: List[ASTNode] = Forest.search(Renaming.findCollisions(_)).removeDuplicates
+		// println(nodeInfo(nodesToRename))
+		// 
+		// for (node <- nodesToRename) 
+		// 	Forest.renamer ! RenameNodeMsg(node)
+		// 
+		// // for collisions among collisions
+		// doAnotherRename(nodesToRename)
 			
 		// note any main proxies
 		print(proxyInfo)
@@ -110,23 +111,23 @@ class ProjectTranslator(val eproj: EclipseProject)
 		eproj.ifolderIn.delete(true, null)	
 	}
 	
-	private def doAnotherRename(nodes: List[ASTNode]) = {
-		import Scalify._
-		
-		def dar(xs: List[NamedDecl]): Unit = xs match {
-			case Nil => return
-			case x :: rest =>
-				rest.find(y => Renaming.compareNames(x, y)) match {
-					case None => dar(rest)
-					case Some(y) => 
-						Forest.renamer ! RenameNodeMsg(x.node)
-						dar(rest - y)
-				}
-		}
-		
-		val namedDecls = nodes.map(_.snode).flatMap { case x: NamedDecl => List(x) ; case _ => Nil }
-		dar(namedDecls)
-	}
+	// private def doAnotherRename(nodes: List[ASTNode]) = {
+	// 	import Scalify._
+	// 	
+	// 	def dar(xs: List[NamedDecl]): Unit = xs match {
+	// 		case Nil => return
+	// 		case x :: rest =>
+	// 			rest.find(y => Renaming.compareNames(x, y)) match {
+	// 				case None => dar(rest)
+	// 				case Some(y) => 
+	// 					Forest.renamer ! RenameNodeMsg(x.node)
+	// 					dar(rest - y)
+	// 			}
+	// 	}
+	// 	
+	// 	val namedDecls = nodes.map(_.snode).flatMap { case x: NamedDecl => List(x) ; case _ => Nil }
+	// 	dar(namedDecls)
+	// }
 	
 	private def doTranslation(cu: dom.CompilationUnit) = {
 		val icu = getICU(cu)
@@ -145,17 +146,17 @@ class ProjectTranslator(val eproj: EclipseProject)
 		writer.close
 	}
 	
-	private def nodeInfo(xs: List[ASTNode]): String = {
-		type HasName = ASTNode { def getName(): dom.SimpleName }
-		val pairs = xs.map { x => (getICU(x.cu).getElementName, x.asInstanceOf[HasName].getName.getIdentifier) }
-		val grouped = groupByKey(pairs)
-		
-		"Renaming " + xs.size + " nodes.\n" + (
-			(for ((name, ids) <- grouped) yield {
-				"  " + name + ": " + ids.mkString(", ")
-			}).mkString("\n")
-		)
-	}
+	// private def nodeInfo(xs: List[ASTNode]): String = {
+	// 	type HasName = ASTNode { def getName(): dom.SimpleName }
+	// 	val pairs = xs.map { x => (getICU(x.cu).getElementName, x.asInstanceOf[HasName].getName.getIdentifier) }
+	// 	val grouped = groupByKey(pairs)
+	// 	
+	// 	"Renaming " + xs.size + " nodes.\n" + (
+	// 		(for ((name, ids) <- grouped) yield {
+	// 			"  " + name + ": " + ids.mkString(", ")
+	// 		}).mkString("\n")
+	// 	)
+	// }
 	
 	private def proxyInfo: String = {
 		import Scalify._

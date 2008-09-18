@@ -115,6 +115,22 @@ class CatchClause(override val node: dom.CatchClause) extends MiscNode(node)
 	}
 }
 
+class Block(override val node: dom.Block) extends Statement(node)
+{
+	lazy val Block(statements) = node
+	override def stmts: List[dom.Statement] = statements
+	override def emitDirect: Emission = OPTBRACES(stmts)
+	def allFragments: List[dom.VariableDeclarationFragment] = stmts
+		. flatMap { case x: dom.VariableDeclarationStatement => List(x) ; case _ => Nil }
+		. flatMap { _.frags }
+}
+
+class VariableDeclarationStatement(override val node: dom.VariableDeclarationStatement) extends Statement(node)
+{
+	lazy val VariableDeclarationStatement(modifiers, jtype, frags) = node
+	override def emitDirect: Emission = REP(frags.map(x => (if (x.isFinal) VAL else VAR) ~ x ~ NL))		// XXX
+}
+
 class Statement(override val node: dom.Statement) extends Node(node)
 {
 	def addsNestingLevel: Boolean = false		// subclassed
@@ -123,22 +139,15 @@ class Statement(override val node: dom.Statement) extends Node(node)
 		case LabeledStatement(label, _) => Some(label)
 		case _ => None
 	}
-		
-	// expands blocks
-	def stmts: List[dom.Statement] = node match {
-		case Block(xs) => xs
-		case _ => List(node)
-	}
+	def stmts: List[dom.Statement] = List(node)	// expanded by blocks
 		
 	override def emitDirect: Emission = node match {
 		case x: dom.EmptyStatement => Nil
-		case Block(statements) => OPTBRACES(statements)
 		case SynchronizedStatement(expr, body) => INVOKE(expr, SYNCHRONIZED) ~ BRACES(body)
 		case ThrowStatement(expr) => THROW ~ expr ~ NL
 		case ExpressionStatement(expr) => expr ~ NL
 		case AssertStatement(expr, None) => ASSERT <~> PARENS(expr) ~ NL
 		case AssertStatement(expr, Some(msg)) => ASSERT <~> METHODARGS(List(expr, msg)) ~ NL
-		case VariableDeclarationStatement(_, _, frags) => REP(frags.map(x => (if (x.isFinal) VAL else VAR) ~ x ~ NL))		// XXX
 		case TypeDeclarationStatement(statement) => statement ~ NL
 		case _ => ERROR("Unreachable: " + node.getClass.getName)
 	}
