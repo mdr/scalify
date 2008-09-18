@@ -85,11 +85,14 @@ class ProjectTranslator(val eproj: EclipseProject)
 		Global.javaProject = eproj.javaProject
 
 		println("Resolving namespace conflicts ... ")
-		val nodesToRename: List[ASTNode] = Forest.search(Renaming.findCollisions(_))
+		val nodesToRename: List[ASTNode] = Forest.search(Renaming.findCollisions(_)).removeDuplicates
 		println(nodeInfo(nodesToRename))
 
 		for (node <- nodesToRename) 
 			Forest.renamer ! RenameNodeMsg(node)
+
+		// for collisions among collisions
+		doAnotherRename(nodesToRename)
 			
 		// note any main proxies
 		print(proxyInfo)
@@ -106,7 +109,25 @@ class ProjectTranslator(val eproj: EclipseProject)
 		// unlink the source lest we conflict on a future attempt
 		eproj.ifolderIn.delete(true, null)	
 	}
+	
+	private def doAnotherRename(nodes: List[ASTNode]) = {
+		import Scalify._
 		
+		def dar(xs: List[NamedDecl]): Unit = xs match {
+			case Nil => return
+			case x :: rest =>
+				rest.find(y => Renaming.compareNames(x, y)) match {
+					case None => dar(rest)
+					case Some(y) => 
+						Forest.renamer ! RenameNodeMsg(x.node)
+						dar(rest - y)
+				}
+		}
+		
+		val namedDecls = nodes.map(_.snode).flatMap { case x: NamedDecl => List(x) ; case _ => Nil }
+		dar(namedDecls)
+	}
+	
 	private def doTranslation(cu: dom.CompilationUnit) = {
 		val icu = getICU(cu)
 		val sast = new ScalaAST(Forest.getJDTMap(cu))

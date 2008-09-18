@@ -9,6 +9,7 @@ import ScalifySafe._
 import IJavaSearchConstants._
 
 case class RenameNodeMsg(x: ASTNode)
+
 object Renaming {
 	import Scalify._
 	private val searchers = new HashMap[IType, Searcher]
@@ -82,7 +83,7 @@ object Renaming {
 		/* methodRename ::: */ forLoopRenames 	// ::: localVarRenames
 	}
 
-	private def compareNames(n1: NamedDecl, n2: NamedDecl): Boolean =
+	def compareNames(n1: NamedDecl, n2: NamedDecl): Boolean =
 		if (n1.isPrivate && n2.isPrivate) false else n1.hasSameReferenceNameAs(n2)
 }
 
