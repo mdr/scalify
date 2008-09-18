@@ -58,10 +58,17 @@ class QualifiedVariableName(override val node: dom.QualifiedName, vb: VBinding) 
 {
 	val maxMinIn = List("Byte", "Short", "Character", "Integer", "Long")
 	private def maxMinOut(s: String) = s match { case "Character" => "CHAR" ; case "Integer" => "INT" ; case _ => allUpper(s) }
+	val maxMinNutty = List("Float", "Double")
 		
 	override def emitDirect: Emission = segments match {
+		case SimpleName(x) :: SimpleName("MAX_VALUE") :: Nil if (maxMinIn ::: maxMinNutty) contains x => emitString("Math.MAX_" + maxMinOut(x))
 		case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinIn contains x => emitString("Math.MIN_" + maxMinOut(x))
-		case SimpleName(x) :: SimpleName("MAX_VALUE") :: Nil if maxMinIn contains x => emitString("Math.MAX_" + maxMinOut(x))
+		case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinNutty contains x => emitString("Math.EPS_" + maxMinOut(x))
+
+		case SimpleName(x) :: SimpleName("NEGATIVE_INFINITY") :: Nil if maxMinNutty contains x => emitString("Math.NEG_INF_" + maxMinOut(x))
+		case SimpleName(x) :: SimpleName("POSITIVE_INFINITY") :: Nil if maxMinNutty contains x => emitString("Math.POS_INF_" + maxMinOut(x))
+		case SimpleName(x) :: SimpleName("NaN") :: Nil if maxMinNutty contains x => emitString("Math.NaN_" + maxMinOut(x))
+		
 		case SimpleName("Math") :: SimpleName("PI") :: Nil => emitString("Math.Pi")
 		case _ => super.emitDirect
 	}
