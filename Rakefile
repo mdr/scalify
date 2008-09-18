@@ -11,9 +11,12 @@ CP = "-classpath " + LIBS.split.join(":")
 DESTPATH = "target/classes"
 SOURCEPATH = 'src/main/'
 FSC = 'fsc -deprecation -unchecked'
+
 JAVAOPTS = "-Xms512M -Xmx1g -Xss4m"
-VMARGS = "-vmargs -d64 -XX:+UseParallelGC"
 # -verbose -Xfuture -Xcheckinit -Xprint:typer -Ybrowse:typer
+
+VMARGS = "-vmargs -XX:+UseParallelGC"
+# -d64
 
 OSGIJAR = "osgi/org.improving.scalify.osgi.jar"
 OSGIBND = "osgi/org.improving.scalify.osgi.bnd"

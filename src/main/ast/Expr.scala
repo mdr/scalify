@@ -28,7 +28,7 @@ trait Assigns
 		
 	def emitAssignment(lhs: dom.Expression, op: String, rhs: dom.Expression, isPostIncrement: Boolean): Emission = {
 		if (lhs.isChar && op != "=") emitCharAssignment(lhs, op, rhs, isPostIncrement)
-		else if (isResultUsed) lhs ~ Emit(op) ~ rhs
+		else if (!isResultUsed) lhs ~ Emit(op) ~ rhs
 		else if (isPostIncrement) ASSIGNLHS(lhs, Emit(op), rhs, isResultUsed)
 		else ASSIGNRHS(lhs, Emit(op), rhs, isResultUsed)
 	}
@@ -42,9 +42,9 @@ trait Assigns
 	}
 	
 	def isResultUsed: Boolean = parent match {
-		case x: dom.ExpressionStatement => true
-		case x: dom.ForStatement => true
-		case _ => false
+		case x: dom.ExpressionStatement => false
+		case x: dom.ForStatement => false
+		case _ => true
 	}
 }
 

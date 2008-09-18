@@ -59,12 +59,12 @@ trait Emissions
 	def COMMENTOUT(msg: Emission): Emission = Emit("/*") ~ msg ~ Emit("*/")
 	
 	// assignment where the result is used - lhs means result is value after assignment, rhs means value before
-	def ASSIGNLHS(lhs: Emission, op: Emission, rhs: Emission, notUsed: Boolean): Emission =
-		if (notUsed) lhs ~ op ~ rhs
-		else SETEQLHS <~> PARENS(lhs <~> COMMA ~ lhs ~ op ~ rhs)
-	def ASSIGNRHS(lhs: Emission, op: Emission, rhs: Emission, notUsed: Boolean): Emission =
-		if (notUsed) lhs ~ op ~ rhs
-		else SETEQ <~> PARENS(lhs ~ op ~ rhs <~> COMMA ~ lhs)
+	def ASSIGNLHS(lhs: Emission, op: Emission, rhs: Emission, isUsed: Boolean): Emission =
+		if (isUsed) SETEQLHS <~> PARENS(lhs <~> COMMA ~ lhs ~ op ~ rhs)
+		else lhs ~ op ~ rhs
+	def ASSIGNRHS(lhs: Emission, op: Emission, rhs: Emission, isUsed: Boolean): Emission =
+		if (isUsed) SETEQ <~> PARENS(lhs ~ op ~ rhs <~> COMMA ~ lhs)
+		else lhs ~ op ~ rhs
 
 	// comma separated list
 	def ARGS[T <% List[Emission]](xss: T) =						// comma-separated list
