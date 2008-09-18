@@ -24,6 +24,8 @@ with MethodBound with NamedDecl with Overrider
 	override def flags = node.getModifiers
 	override def allFragments: List[dom.VariableDeclarationFragment] =
 		descendants.flatMap { case x: dom.VariableDeclarationFragment => List(x) ; case _ => Nil }
+	def allVariableDeclarations: List[dom.VariableDeclaration] = // params ::: allFragments		// XXX
+		descendants.flatMap { case x: dom.VariableDeclaration => List(x) ; case _ => Nil }
 	
 	val isPrimary = false
 	lazy val dtype: dom.TypeDeclaration = findDeclaringType.get

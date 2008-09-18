@@ -105,10 +105,15 @@ class MethodInvocation(override val node: dom.MethodInvocation) extends Expressi
 		}
 	}
 		
-	private def qualTransforms(x: dom.QualifiedName): Option[Emission] = x.unqualify match {
-		// removing System.out. and Console. noise
-		case "System.out" | "Console" if consoleMethods contains method => Some(name <~> PARENS(ARGS(args)))
-		case  _ => None
+	private def qualTransforms(x: dom.QualifiedName): Option[Emission] = {
+		// look for a declaration in scope that conflicts with the one we're thinking about unqualifying
+		val ids = (eMethod.map(_.allVariableDeclarations) | Nil).map(_.name)
+		if (ids.exists { case SimpleName(x) if x == method => true ; case _ => false }) None
+		else x.unqualify match {
+			// removing System.out. and Console. noise
+			case "System.out" | "Console" if consoleMethods contains method => Some(name <~> PARENS(ARGS(args)))
+			case  _ => None
+		}
 	}
 	
 	private def anyTransforms: Option[Emission] = 
