@@ -82,9 +82,12 @@ class MiscNode(node: ASTNode) extends Node(node)
 class CompilationUnit(override val node: dom.CompilationUnit) extends MiscNode(node)
 with HasTypes
 {
+	import org.eclipse.jdt.core.compiler.IProblem
 	import Global._
+	
 	lazy val CompilationUnit(jpackage, imports, jtypes) = node
 	lazy val comments: List[dom.Comment] = node.getCommentList
+	lazy val problems: List[IProblem] = node.getProblems
 	lazy val stds: List[dom.TypeDeclaration] = jtypes flatMap 
 		{ case x: dom.TypeDeclaration => List(x) ; case _ => Nil }
 	lazy val icu: ICU = node.getJavaElement match { case x: ICU => x ; case _ => null }

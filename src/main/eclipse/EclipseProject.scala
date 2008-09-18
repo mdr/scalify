@@ -48,8 +48,10 @@ class ASTCreator(val eproj: EclipseProject) extends dom.ASTRequestor
 	
 	def allSuccess = asts.values.toList.forall(cu => cu.getProblems.forall(problem => !problem.isError))
 	def requestASTs() = parser.createASTs(icus, new Array[String](0), this, null)
-	def getProblems(icu: ICU): List[String] = asts(icu).getProblems.map(_.getMessage)
-	def getAllProblems: List[String] = List.flatten(asts.keys.toList.map(getProblems))
+	def getProblems(icu: ICU): List[IProblem] = asts(icu).getProblems.toList
+	def getProblemsText(icu: ICU): List[String] = asts(icu).getProblems.map(_.getMessage)
+	def getAllProblems: List[IProblem] = cus.flatMap(_.getProblems)
+	def getAllProblemText: List[String] = List.flatten(asts.keys.toList.map(getProblemsText))
 	
 	// when I parallelized processing, I started getting java.io.FileNotFoundException leading back to:
 	//   val writer = new FileWriter(outPath)
@@ -67,7 +69,7 @@ class ProjectTranslator(val eproj: EclipseProject)
 	lazy val creator = new ASTCreator(eproj)
 	lazy val stats = 
 		if (creator.allSuccess) "I parsed " + creator.asts.size + " compilation units. "
-		else "Compilation failed because: \n" + creator.getAllProblems.reduceLeft(_ + "\n" + _)
+		else "Compilation failed because: \n" + creator.getAllProblemText.mkString("\n")
 		
 	// create an AST for each unit
 	def translate: Boolean = {
@@ -97,6 +99,9 @@ class ProjectTranslator(val eproj: EclipseProject)
 			
 		// note any main proxies
 		print(proxyInfo)
+		
+		// debug
+		print(problemInfo(creator.getAllProblems))
 
 		true
 	}
@@ -135,7 +140,7 @@ class ProjectTranslator(val eproj: EclipseProject)
 		
 		// ask our Creator for some icu info
 		val outPath = creator.getOutputPath(icu)
-		val problemText = creator.getProblems(icu).foldLeft("")(_ + "\n" + _)
+		val problemText = creator.getProblemsText(icu).mkString("\n")
 
 	    // output a scala file
 		val writer = new FileWriter(outPath)
@@ -170,6 +175,10 @@ class ProjectTranslator(val eproj: EclipseProject)
 		else "Inserting proxy classes with main methods since scala can't deal:\n" +			
 				mainProxies.map(mp => "  " + mp.pkgName + "." + mp.name + " => " + mp.pkgName + "." + mp.mainProxyName + "\n").mkString
 	}
+	
+	private def problemInfo(xs: List[IProblem]): String = {
+		xs.size + " reported problems:\n" + xs.filter(_.isNonStaticAccess).map(x => x.getMessage + " (" + x.args.mkString(", ") + ")").mkString("\n")
+	}		
 }
 
 

@@ -2,6 +2,7 @@ package org.improving.scalify
 
 import Scalify._
 import org.eclipse.jdt.core.dom
+import org.eclipse.jdt.core.compiler.IProblem
 import scala.collection.immutable
 import scala.collection.mutable.{ HashMap, HashSet }
 import scalaz.OptionW._
@@ -33,6 +34,9 @@ trait SafeImplicits
 	
 	// listbuffer => list
 	implicit def listBufferToList[T](lb: scala.collection.mutable.ListBuffer[T]): List[T] = lb.toList
+	
+	// IProblem
+	implicit def enrichProblem(p: IProblem): RichIProblem = new RichIProblem(p)
 }
 
 // this trait is for node operations with no dependencies outside the jdt's ast

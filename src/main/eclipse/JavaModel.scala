@@ -3,6 +3,7 @@ package org.improving.scalify
 import Scalify._
 import org.eclipse.jdt.core._
 import org.eclipse.jdt.core.dom
+import org.eclipse.jdt.core.compiler._
 
 // the java model in eclipse is all the IJavaElement business
 trait JavaModel
@@ -69,3 +70,17 @@ class RichIType(itype: IType) extends RichIMember(itype) {
 	
 	// fields.exists(_.isStatic) || methods.exists(_.isStatic)
 }
+
+class RichIProblem(problem: IProblem) {
+	import IProblem._
+	
+	lazy val id = p.getID
+	lazy val args = p.getArguments
+	lazy val cp: CategorizedProblem = p match {
+		case x: CategorizedProblem => x
+		case _ => abort("Uncategorized Problem?")
+	}
+	
+	def isNonStaticAccess = id == NonStaticAccessToStaticField || id == NonStaticAccessToStaticMethod
+}
+
