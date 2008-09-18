@@ -46,25 +46,12 @@ class Parameter(override val node: dom.SingleVariableDeclaration, val method: do
 	
 	private def emitWithName(aName: Emission): Emission = 
 		aName ~ COLON ~ arrayWrap(dims)(jtype.emitDirect(node)) ~ emitCond(isVarargs, NOS ~ Emit("*"))
-			
-	// looks under the supplied root for assignments to this name
-	private def isUsedInAssignment(root: ASTNode): Boolean = {		
-		// log.trace("Testing if %s is assigned to under %s", name, root.id)
-		def opDoesModify(op: String) = (op == "++" || op == "--")
-		
-		root.descendantExprs exists {
-			case Assignment(lhs: dom.SimpleName, _, _) if compareSimpleNames(lhs, name) => true
-			case PostfixExpression(lhs: dom.SimpleName, _) if compareSimpleNames(lhs, name) => true
-			case PrefixExpression(JavaOp(op), lhs: dom.SimpleName) if compareSimpleNames(lhs, name) && opDoesModify(op) => true
-			case _ => false
-		}
-	}
 }
 
 class Field(override val node: dom.VariableDeclarationFragment) extends VariableDeclaration(node)
 {
 	require(vb.isField)
-	override def emitDefaultInitializer: Emission = EQUALS ~ ifDims(UNDERSCORE)
+	override def emitDefaultInitializer: Emission = ifDims(UNDERSCORE)
 
 	lazy val VariableDeclarationFragment(name, dims, init) = node
 	lazy val FieldDeclaration(_, modifiers, jtype, _) = parent	
@@ -73,7 +60,7 @@ class Field(override val node: dom.VariableDeclarationFragment) extends Variable
 class LocalVariable(node: dom.VariableDeclaration, val method: dom.MethodDeclaration) extends VariableDeclaration(node)
 {
 	require (!vb.isField && !vb.isParameter)
-	override def emitDefaultInitializer: Emission = EQUALS ~ ifDims(jtype.emitDefaultValue)
+	override def emitDefaultInitializer: Emission = ifDims(jtype.emitDefaultValue)
 	
 	lazy val (modifiers, jtype, name, dims, init) = node match {
 		case SingleVariableDeclaration(m, j, _, n, d, i) => (m, j, n, d, i)
@@ -120,7 +107,15 @@ extends Node(node) with VariableBound with NamedDecl
 	// so far the logic is: if there's no initializer, it must be a var because
 	// unlike java we can't declare a final and assign to it later.
 	// Otherwise, if it's final it's a val.
-	def isVal: Boolean = isFinal && !init.isEmpty
+	private def isInitializedVal: Boolean = isFinal && !init.isEmpty
+	private def isUninitializedVal: Boolean = isFinal && init.isEmpty
+	def isVolatileVar: Boolean = isFinal && timesUsedInAssignment(findEnclosingScope) > 1
+	def isDeferredVal: Boolean = isUninitializedVal && timesUsedInAssignment(findEnclosingScope) <= 1
+	
+	def emitValOrVar: Emission =
+		if (isVolatileVar) VOLATILE ~ VAR
+		else if (isFinal) VAL
+		else VAR
 	
 	protected def ifDims(x: Emission): Emission = if (dims > 0) NULL else x
 	protected def needsType: Boolean = {
@@ -135,9 +130,31 @@ extends Node(node) with VariableBound with NamedDecl
 			
 		retVal
 	}
+	
+	// looks under the supplied root for assignments to this name
+	def isUsedInAssignment(root: ASTNode): Boolean = timesUsedInAssignment(root) > 0
+	def timesUsedInAssignment(root: ASTNode): Int = {		
+		// log.trace("Testing if %s is assigned to under %s", name, root.id)
+		def opDoesModify(op: String) = (op == "++" || op == "--")
 
-	def emitDirect: Emission = 
-		if (needsType) name ~ COLON ~ arrayWrap(dims)(jtype.emitDirect(node)) ~ emitOpt(init, EQUALS ~ _, emitDefaultInitializer)
-		else name ~ EQUALS ~ init.get
+		val assigns = root.descendantExprs filter {
+			case Assignment(lhs: dom.SimpleName, _, _) if compareSimpleNames(lhs, name) => true
+			case PostfixExpression(lhs: dom.SimpleName, _) if compareSimpleNames(lhs, name) => true
+			case PrefixExpression(JavaOp(op), lhs: dom.SimpleName) if compareSimpleNames(lhs, name) && opDoesModify(op) => true
+			case _ => false
+		}
+		
+		assigns.size
+	}
+
+	override def emitDirect: Emission = if (isDeferredVal) Nil else emitNameDeclaration ~ emitInitDeclaration
+	private def emitNameDeclaration: Emission = name ~ (if (needsType) COLON ~ arrayWrap(dims)(jtype.emitDirect(node)) else Nil)
+	private def emitInitDeclaration: Emission = EQUALS ~ (if (init.isDefined) init.get else emitDefaultInitializer)
+	
+	// this is called when we had to move the declaration site - the context is the assignment node
+	override def emitDirect(context: ASTNode): Emission = context match {
+		case x: dom.Assignment if isDeferredVal => VAL ~ emitNameDeclaration
+		case _ => abort("Var declaration proposed at non-assignment node ")
+	}
 }
 

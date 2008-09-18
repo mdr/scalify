@@ -128,7 +128,11 @@ class Block(override val node: dom.Block) extends Statement(node)
 class VariableDeclarationStatement(override val node: dom.VariableDeclarationStatement) extends Statement(node)
 {
 	lazy val VariableDeclarationStatement(modifiers, jtype, frags) = node
-	override def emitDirect: Emission = REP(frags.map(x => (if (x.isFinal) VAL else VAR) ~ x ~ NL))		// XXX
+	
+	// if it's final but without initializer, we defer declaration to the assignment site
+	private def emitFragment(x: dom.VariableDeclarationFragment) = if (x.isDeferredVal) Nil else x.emitValOrVar ~ x ~ NL
+		
+	override def emitDirect: Emission = REP(frags.map(emitFragment))
 }
 
 class Statement(override val node: dom.Statement) extends Node(node)

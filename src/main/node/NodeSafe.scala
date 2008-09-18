@@ -52,6 +52,12 @@ abstract trait ASTNodeSafe extends TreeSafe
 	def findEnclosingVariable: Option[dom.VariableDeclaration] =
 		ancestors flatMap { case x: dom.VariableDeclaration => List(x) ; case _ => Nil } firstOption
 	
+	def findEnclosingScope: ASTNode = ancestors flatMap { 
+		case x: dom.Block => List(x)
+		case x: dom.AbstractTypeDeclaration => List(x)
+		case _ => Nil
+	} head
+	
 	def fqname: String = node match { case x: dom.Name => x.getFullyQualifiedName ; case _ => "<Unknown>" }
 	def pkgName: String = onull(cu.getPackage).map(_.getName.getFullyQualifiedName) | ""
 	def pkgSegments: List[String] = pkgName.split('.').toList

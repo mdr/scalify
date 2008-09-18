@@ -2,6 +2,7 @@ package org.improving.scalify
 
 import Scalify._
 import org.eclipse.jdt.core.dom
+import scalaz.OptionW._
 
 // *** TRANSFORMATIONS TO DO ***
 // 
@@ -20,7 +21,7 @@ trait Assigns
 {
 	self: Expression =>
 	val op: String
-	
+
 	// assume normal assignment semantics
 	def emitAssignment(lhs: dom.Expression, op: String, rhs: dom.Expression): Emission = 
 		emitAssignment(lhs, op, rhs, false)
@@ -64,8 +65,19 @@ trait Assigns
 class Assignment(override val node: dom.Assignment) extends Expression(node) with Assigns
 {
 	lazy val Assignment(lhs, JavaOp(op), rhs) = node
-	
-	override def emitDirect: Emission = emitAssignment(lhs, op, rhs)
+	// deferred final assignment handled specially
+	lazy val emitDeferredFinal: Option[Emission] = lhs.snode match {
+		case x: VariableName => 
+			x.vb.findVariableDeclaration match {
+				case Some(v) if v.isDeferredVal =>
+					log.trace("Deferred val declaration: %s", v)
+					Some(v.emitDirect(node) ~ EQUALS ~ rhs)
+				case _ => None
+			}
+		case _ => None
+	}
+
+	override def emitDirect: Emission = emitDeferredFinal | emitAssignment(lhs, op, rhs)
 }
 
 class PostfixExpression(override val node: dom.PostfixExpression) extends Expression(node) with Assigns

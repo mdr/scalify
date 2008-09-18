@@ -79,7 +79,6 @@ abstract class VariableName(node: dom.Name, val vb: VBinding) extends Name(node)
 	override def currentName: String = 
 		if (varSegs.size > 1) varSegs.map(_.currentName).mkString(".")
 		else super.currentName
-	
 }
 
 class MethodName(node: dom.Name, val mb: MBinding) extends Name(node) with MethodBound

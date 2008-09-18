@@ -9,11 +9,13 @@ class FieldDeclaration(override val node: dom.FieldDeclaration) extends BodyDecl
 	lazy val FieldDeclaration(javadoc, mods, jtype, fragments) = node
 	
 	override def allFragments = fragments
-	override def emitDirect = emitFields(_.isVal)
-	def emitAsVal = emitFields(x => true)
-	
-	private def emitFields(cond: (dom.VariableDeclarationFragment) => Boolean): Emission = 
-		REP(fragments.map(x => (if (cond(x)) VAL else VAR) ~ x ~ NL))
+	override def emitDirect = emitFields(_.emitValOrVar)
+	def emitAsVal = emitFields(x => VAL)
+		
+	private def emitFields(valOrVar: (dom.VariableDeclarationFragment) => Emission): Emission = {
+		val fragsToEmit = fragments.filter(!_.isDeferredVal)
+		REP(fragsToEmit.map(x => valOrVar(x) ~ x ~ NL))
+	}
 }
 
 class EnumConstantDeclaration(override val node: dom.EnumConstantDeclaration)
