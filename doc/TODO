@@ -10,3 +10,4 @@ General:
 * projections in for-comprehensions for lazy evaluation
 * revisit val => volatile var to see if it can be avoided
 * find deterministic strategy for renaming and id generation so diffs are meaningful
+* end schizophrenia regarding dom.* types and our wrapper types, especially in pattern matching contexts

@@ -78,7 +78,7 @@ abstract class Node(val node: ASTNode)
 	// id is only for debugging - ppString is for optional pretty printing
 	final def classId: String = " (" + node.getClass.getSimpleName + " / " + snode.getClass.getSimpleName + ")"
 	final def id: String = toString + classId
-	override def toString = "<undef>"
+	override def toString = "<" + node.getClass.getSimpleName + ">"
 	def ppString: Option[String] = this match {
 		case x: Named => Some(x.origName)
 		case x: Bound => Some(x.bindingName)

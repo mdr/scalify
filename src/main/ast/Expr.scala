@@ -72,15 +72,17 @@ trait Assigns
 class Assignment(override val node: dom.Assignment) extends Expression(node) with Assigns
 {
 	lazy val Assignment(lhs, JavaOp(op), rhs) = node
-	lazy val variableName: Option[VariableName] = lhs.snode match {
-		case x: VariableName => Some(x)
-		case FieldAccess(ThisExpression(None), v) => v.snode match {
+	lazy val variableName: Option[VariableName] = {
+		val v = lhs match {
+			case FieldAccess(ThisExpression(None), x) => log.trace("Assignment w/ ThisExpression: %s", lhs) ; x
+			case x => x
+		}
+		v.snode match {
 			case x: VariableName => Some(x)
 			case _ => None
 		}
-		case _ => None
 	}
-	
+		
 	// deferred final assignment handled specially
 	lazy val emitDeferredFinal: Option[Emission] = variableName match {
 		case Some(x) => x.findVariableDeclaration match {
