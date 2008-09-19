@@ -80,27 +80,28 @@ object Renaming {
 		val conFors = indCons.flatMap(c => forInits(fors(c.stmts)))
 		val conLocals = indCons.flatMap(_.allVariableDeclarations)
 		val frags = node.fields.flatMap(_.allFragments)
+		val superCollidingFields = frags.filter(f => getSearcher(node).doesFieldNeedRenaming(f))
 		// val fieldRenames = 
 		// 	for {
 		// 		f <- node.fields.flatMap(_.allFragments)
 		// 		if node.methods.exists(compareNames(f, _)) || params.exists(compareNames(f, _))
 		// 	} yield f
 		// val paramRenames = for (p <- params ; if node.methods.exists(compareNames(p, _))) yield p
-		val varGroup = conParams ::: conFors ::: conLocals ::: frags
+		val varGroup = conParams ::: conFors ::: conLocals ::: (frags -- superCollidingFields)
 		val methodCollidingVars = List.flatten(for (m <- node.methods) yield varGroup.filter(v => compareNames(m, v))).removeDuplicates
 		
-		List(RenameGroup(methodCollidingVars), NameGroup(varGroup -- methodCollidingVars))
+		List(RenameGroup(superCollidingFields ::: methodCollidingVars), NameGroup(varGroup -- methodCollidingVars))
 		
 		// List(RenameGroup(fieldRenames ::: paramRenames))
 	}
 		
-	// private def doFieldRenaming(node: dom.FieldDeclaration): List[NameGroup] =
-	// 	List(RenameGroup(
-	// 		for { 
-	// 			frag <- node.allFragments
-	// 			if getSearcher(node).doesFieldNeedRenaming(frag)
-	// 		} yield frag
-	// 	))
+	private def doFieldRenaming(node: dom.FieldDeclaration): List[NameGroup] =
+		List(RenameGroup(
+			for { 
+				frag <- node.allFragments
+				if getSearcher(node).doesFieldNeedRenaming(frag)
+			} yield frag
+		))
 				
 	// private def doConstructorRenaming(node: dom.MethodDeclaration): List[ASTNode] = {
 	// 	val nodes = 
