@@ -140,11 +140,12 @@ extends Node(node) with VariableBound with NamedDecl
 	def timesUsedInAssignment(root: ASTNode): Int = {		
 		// log.trace("Testing if %s is assigned to under %s", name, root.id)
 		def opDoesModify(op: String) = (op == "++" || op == "--")
+		def nameIsVar(lhs: dom.SimpleName): Boolean = compareSimpleNames(lhs, name) || lhs.vbinding.map(_.isEqualTo(vb))
 
 		val assigns = root.descendantExprs filter {
-			case Assignment(lhs: dom.SimpleName, _, _) if compareSimpleNames(lhs, name) => true
-			case PostfixExpression(lhs: dom.SimpleName, _) if compareSimpleNames(lhs, name) => true
-			case PrefixExpression(JavaOp(op), lhs: dom.SimpleName) if compareSimpleNames(lhs, name) && opDoesModify(op) => true
+			case Assignment(lhs: dom.SimpleName, _, _) if nameIsVar(lhs) => true
+			case PostfixExpression(lhs: dom.SimpleName, _) if nameIsVar(lhs) => true
+			case PrefixExpression(JavaOp(op), lhs: dom.SimpleName) if nameIsVar(lhs) && opDoesModify(op) => true
 			case _ => false
 		}
 		

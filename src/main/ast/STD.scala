@@ -164,7 +164,7 @@ with HasTypes
 	
 	def isInstancePartEmpty: Boolean = 
 		if (isEverCreated) false
-		else ifields.isEmpty && imethods.isEmpty && iinits.isEmpty && itypes.isEmpty
+		else ifields.isEmpty && imethods.isEmpty && iinits.isEmpty && itypes.isEmpty && !isAbstract
 		
 	def isStaticPartEmpty: Boolean = sfields.isEmpty && smethods.isEmpty && sinits.isEmpty && stypes.isEmpty
 }

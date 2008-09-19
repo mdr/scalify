@@ -274,25 +274,24 @@ class ThisExpression(override val node: dom.ThisExpression) extends Expression(n
 
 class NumberLiteral(override val node: dom.NumberLiteral) extends Expression(node)
 {
-	lazy val NumberLiteral(token) = node
+	lazy val NumberLiteral(origToken) = node
 	lazy val default = SToken.emitLiteral(token)
 	lazy val arrayInitializer: Option[dom.ArrayInitializer] = ancestors flatMap { case x: dom.ArrayInitializer => List(x) ; case _ => Nil } firstOption
 	lazy val elementType: Option[TBinding] = arrayInitializer match {
 		case Some(x) => Some(x.tb.getElementType)
 		case _ => None
 	}
-	
-	// XXX this is clearly insufficient
-	private def castElement(x: Emission): Emission = elementType match {
+	lazy val tokenNoLetter = origToken.replaceAll("""[lLdDfF]$""", "")
+	lazy val token = elementType match {
 		case Some(el) if !el.isEqualTo(tb) => 
-			if (el.isSomeType(PT.LONG)) x <~> emitString("L")
-			else if (el.isSomeType(PT.DOUBLE) && !tb.isSomeType(PT.FLOAT)) x <~> emitString("D")
-			else if (el.isSomeType(PT.FLOAT) && !tb.isSomeType(PT.DOUBLE)) x <~> emitString("F")
-			else x
-		case _ => x
+			if (el.isSomeType(PT.LONG)) tokenNoLetter + "L"
+			else if (el.isSomeType(PT.DOUBLE)) tokenNoLetter + "D"
+			else if (el.isSomeType(PT.FLOAT)) tokenNoLetter + "F"
+			else origToken
+		case _ => origToken
 	}
 
-	override def emitDirect: Emission = castElement(if (token startsWith "-") PARENS(default) else default)
+	override def emitDirect: Emission = if (token startsWith "-") PARENS(default) else default
 }
 
 class VariableDeclarationExpression(override val node: dom.VariableDeclarationExpression) extends Expression(node)
