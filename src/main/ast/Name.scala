@@ -56,7 +56,7 @@ class ParameterName(override val node: dom.SimpleName, vb: VBinding) extends Var
 class FieldName(override val node: dom.SimpleName, vb: VBinding) extends VariableName(node, vb)
 class QualifiedVariableName(override val node: dom.QualifiedName, vb: VBinding) extends VariableName(node, vb)
 {
-	lazy val QualifiedName(qual, _) = node
+	lazy val QualifiedName(qual, SimpleName(identifier)) = node
 	private def maxMinOut(s: String) = s match { case "Character" => "CHAR" ; case "Integer" => "INT" ; case _ => allUpper(s) }
 	val maxMinIn = List("Byte", "Short", "Character", "Integer", "Long")
 	val maxMinNutty = List("Float", "Double")
@@ -64,7 +64,7 @@ class QualifiedVariableName(override val node: dom.QualifiedName, vb: VBinding) 
 	override def emitDirect: Emission = {
 		log.trace("QualifiedVariableName: %s (static = %s) (tb = %s) (sq = %s)", segments, vb.isStatic, qual.tb.getKey, vb.getStaticQualifier)
 		emitScalaMathConstant | 
-		(if (vb.isStatic) INVOKE(emitString(vb.getStaticQualifierPkg + "." + vb.getStaticQualifier), simpleName) else super.emitDirect)
+		(if (vb.isStatic) emitString(vb.getStaticQualifier + "." + identifier) else super.emitDirect)
 	}
 	
 	private def emitScalaMathConstant: Option[Emission] = segments match {
@@ -213,6 +213,7 @@ trait NameInfo
 	
 	lazy val simpleName: dom.SimpleName = segments.last
 	lazy val isDeclaration: Boolean = simpleName.isDeclaration
+	lazy val isPkgQualified: Boolean = !pkgSegs.isEmpty
 	lazy val origName: String = simpleName.getIdentifier
 	lazy val origPkg: String = if (pkgSegs.isEmpty) "" else pkgSegs.last.pb.getName
 	lazy val origNonPkg: String = Scalify.join(nonPkgSegments.map(_.currentName).filter(_ != ""), ".")

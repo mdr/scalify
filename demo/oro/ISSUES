@@ -1,5 +1,0 @@
-$Id: ISSUES 124053 2005-01-04 01:24:35Z dfs $
-
-o It is possible that Perl5Util may not handle backslashing properly
-  for certain rare cases.  Need to collect bug reports on this count
-  and fix it if this is true.

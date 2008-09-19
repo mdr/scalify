@@ -32,7 +32,7 @@ throws transient unchecked uncheckedStable volatileArray
 	
 	// legal java ids with special meaning in scala
 	val scalaReservedWords = """apply def class forSome implicit lazy match mixin object override 
-		requires sealed trait type val var with yield""".split("""\s+""")
+		requires sealed trait type val var with yield _""".split("""\s+""")
 	
 	// type aliases
 	type ASTNode  = dom.ASTNode
