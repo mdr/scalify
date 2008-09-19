@@ -7,6 +7,7 @@ import org.eclipse.jdt.core._
 
 import java.io.{ File, FileWriter }
 import scala.collection.mutable.HashMap
+import net.lag.logging
 
 abstract trait Translator { def translate(in: File, out: File, cps: List[File]): String }
 
@@ -79,6 +80,8 @@ end
 		scalifyCmd(argv) match {
 			case CmdFailure(msg) => println(msg)
 			case CmdOpts(in, out, cps, javaComments, verbose) =>
+				if (verbose) Scalify.log.setLevel(logging.TRACE)
+				
 				println("Translating files from " + in + " into " + out)
 				if (!cps.isEmpty)
 					println("Classpath additions: " + cps.mkString(":"))
