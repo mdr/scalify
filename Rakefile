@@ -15,7 +15,7 @@ FSC = 'fsc -deprecation -unchecked'
 JAVAOPTS = "-Xms512M -Xmx1g -Xss4m"
 # -verbose -Xfuture -Xcheckinit -Xprint:typer -Ybrowse:typer
 
-VMARGS = "-vmargs -XX:+UseParallelGC"
+VMARGS = "" # "-vmargs -XX:+UseParallelGC"
 # -d64
 
 OSGIJAR = "osgi/org.improving.scalify.osgi.jar"

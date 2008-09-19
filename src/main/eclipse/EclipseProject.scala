@@ -177,7 +177,7 @@ class ProjectTranslator(val eproj: EclipseProject)
 	}
 	
 	private def problemInfo(xs: List[IProblem]): String = {
-		xs.size + " reported problems:\n" + xs.filter(_.isNonStaticAccess).map(x => x.getMessage + " (" + x.args.mkString(", ") + ")").mkString("\n")
+		xs.size + " reported problems:\n" + xs.filter(_.isNonStaticAccess).map(x => x.getMessage + " (" + x.args.mkString(", ") + ")\n").mkString
 	}		
 }
 

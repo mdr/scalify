@@ -62,7 +62,7 @@ class QualifiedVariableName(override val node: dom.QualifiedName, vb: VBinding) 
 	val maxMinNutty = List("Float", "Double")
 		
 	override def emitDirect: Emission = {
-		log.trace("QualifiedVariableName: %s (static = %s) (tb = %s) (sq = %s) ", segments, vb.isStatic, qual.tb.getKey, vb.getStaticQualifier)
+		log.trace("QualifiedVariableName: %s (static = %s) (tb = %s) (sq = %s)", segments, vb.isStatic, qual.tb.getKey, vb.getStaticQualifier)
 		emitScalaMathConstant | 
 		(if (vb.isStatic) INVOKE(emitString(vb.getStaticQualifierPkg + "." + vb.getStaticQualifier), simpleName) else super.emitDirect)
 	}

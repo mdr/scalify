@@ -24,17 +24,21 @@ class Parameter(override val node: dom.SingleVariableDeclaration, val method: do
 	
 	def collisionSearchScope = method
 	// def collisionSearchScope = if (method.isConstructor) method.dtype else method
-	def useAlternateName = isUsedInAssignment(collisionSearchScope)
+	def useAlternateName = 
+		if (method.isConstructor && method.isPrimary) false
+		else isUsedInAssignment(collisionSearchScope)
+		
 	def emitRenaming: Emission = if (useAlternateName) VAR ~ name ~ EQUALS ~ emitAlternateName ~ NL else Nil
 	def isVar: Emission = {
-		val mb = vb.getDeclaringMethod
-		mb.findMethodDeclaration match {
-			case Some(x) if x.isConstructor => x.snode match {
-				case x: Constructor if x.isPrimary => VAR
-				case _ => Nil
-			}
-			case _ => Nil
-		}
+		if (method.isConstructor && method.isPrimary) VAR else Nil
+		// val mb = vb.getDeclaringMethod
+		// mb.findMethodDeclaration match {
+		// 	case Some(x) if x.isConstructor => x.snode match {
+		// 		case x: Constructor if x.isPrimary => VAR
+		// 		case _ => Nil
+		// 	}
+		// 	case _ => Nil
+		// }
 	}
 	
 	override def emitDirect: Emission = {

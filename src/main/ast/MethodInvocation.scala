@@ -37,7 +37,7 @@ class MethodInvocation(override val node: dom.MethodInvocation) extends Expressi
 			}
 			else if (expr.isEmpty) {
 				// for uses like int head = head(), we can avoid renaming by saying head = this.head
-				if (mb.getParameterTypes.length == 0 && declaresLocalVarNamed(name)) {
+				if (declaresLocalVarNamed(name)) {
 					log.trace("Qualifying %s to this.%s in %s", name.id, name.id, eMethod.map(_.id) | "?")
 					if (isInAnonDeclaration || (findEnclosingType.map(!_.tb.isTopLevel) | false)) { 
 						val typeQualifier = findEnclosingType.map(t => emitString(t.tb.getName)) | Nil
