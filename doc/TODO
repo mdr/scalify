@@ -6,5 +6,6 @@ Look at:
 
 General:
 
+* unify icu and cu into one type and use view bounds
 * projections in for-comprehensions for lazy evaluation
 * revisit val => volatile var to see if it can be avoided

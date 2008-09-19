@@ -42,8 +42,6 @@ class RichIMethod(imethod: IMethod) extends RichIMember(imethod)
 }
 
 class RichIType(itype: IType) extends RichIMember(itype) {
-	// lazy val fields = itype.getFields
-	// lazy val methods = itype.getMethods
 	def fields: List[IField] = itype.getFields
 	def methods: List[IMethod] = itype.getMethods
 	def id = itype.getTypeQualifiedName + (if (itype.isResolved) "" else " (not resolved)")
@@ -66,19 +64,17 @@ class RichIType(itype: IType) extends RichIMember(itype) {
 		log.trace("ensureOpen: %s ", itype)
 		op.open(null)
 		itype
-	}
-	
-	// fields.exists(_.isStatic) || methods.exists(_.isStatic)
+	}	
 }
 
 class RichIProblem(problem: IProblem) {
 	import IProblem._
 	
-	lazy val id = p.getID
-	lazy val args = p.getArguments
-	lazy val cp: CategorizedProblem = p match {
-		case x: CategorizedProblem => x
-		case _ => abort("Uncategorized Problem?")
+	lazy val id = problem.getID
+	lazy val args = problem.getArguments
+	lazy val cp: Option[CategorizedProblem] = problem match {
+		case x: CategorizedProblem => Some(x)
+		case _ => None
 	}
 	
 	def isNonStaticAccess = id == NonStaticAccessToStaticField || id == NonStaticAccessToStaticMethod

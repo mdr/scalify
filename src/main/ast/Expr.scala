@@ -149,8 +149,18 @@ class FieldAccess(override val node: dom.FieldAccess) extends Expression(node) w
 	override def binding = super[VariableBound].binding
 	override def emitDirect: Emission = {
 		log.trace("FieldAccess: %s . %s", expr, name)
-		INVOKE(expr, name)
+		if (isStaticBinaryRef) INVOKE(emitString(staticTypeRef.get.tb.fqname), name)
+		else INVOKE(expr, name)
 	}
+	
+	private def staticTypeRef: Option[Type] =
+		if (!vb.isStatic) None
+		else vb.findVariableDeclaration.map(_.jtype)
+		
+	private def isStaticBinaryRef = vb.isStatic && (staticTypeRef.flatMap(_.itype).map(_.isBinary) | false)	
+	// 
+	// override def isStaticReference = isStaticBinaryRef || super.isStaticReference		
+	// override def emitNameAsStaticRef: Emission = staticTypeRef.map(x => emitString(x.tb.fqname + "." + currentName)) | super.emitNameAsStaticRef	
 }
 
 class SuperFieldAccess(override val node: dom.SuperFieldAccess) extends Expression(node) with VariableBound

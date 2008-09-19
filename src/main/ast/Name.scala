@@ -60,17 +60,20 @@ class QualifiedVariableName(override val node: dom.QualifiedName, vb: VBinding) 
 	private def maxMinOut(s: String) = s match { case "Character" => "CHAR" ; case "Integer" => "INT" ; case _ => allUpper(s) }
 	val maxMinNutty = List("Float", "Double")
 		
-	override def emitDirect: Emission = segments match {
-		case SimpleName(x) :: SimpleName("MAX_VALUE") :: Nil if (maxMinIn ::: maxMinNutty) contains x => emitString("Math.MAX_" + maxMinOut(x))
-		case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinIn contains x => emitString("Math.MIN_" + maxMinOut(x))
-		case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinNutty contains x => emitString("Math.EPS_" + maxMinOut(x))
+	override def emitDirect: Emission = {
+		log.trace("QualifiedVariableName: %s", segments)
+		segments match {
+			case SimpleName(x) :: SimpleName("MAX_VALUE") :: Nil if (maxMinIn ::: maxMinNutty) contains x => emitString("Math.MAX_" + maxMinOut(x))
+			case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinIn contains x => emitString("Math.MIN_" + maxMinOut(x))
+			case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinNutty contains x => emitString("Math.EPS_" + maxMinOut(x))
 
-		case SimpleName(x) :: SimpleName("NEGATIVE_INFINITY") :: Nil if maxMinNutty contains x => emitString("Math.NEG_INF_" + maxMinOut(x))
-		case SimpleName(x) :: SimpleName("POSITIVE_INFINITY") :: Nil if maxMinNutty contains x => emitString("Math.POS_INF_" + maxMinOut(x))
-		case SimpleName(x) :: SimpleName("NaN") :: Nil if maxMinNutty contains x => emitString("Math.NaN_" + maxMinOut(x))
+			case SimpleName(x) :: SimpleName("NEGATIVE_INFINITY") :: Nil if maxMinNutty contains x => emitString("Math.NEG_INF_" + maxMinOut(x))
+			case SimpleName(x) :: SimpleName("POSITIVE_INFINITY") :: Nil if maxMinNutty contains x => emitString("Math.POS_INF_" + maxMinOut(x))
+			case SimpleName(x) :: SimpleName("NaN") :: Nil if maxMinNutty contains x => emitString("Math.NaN_" + maxMinOut(x))
 		
-		case SimpleName("Math") :: SimpleName("PI") :: Nil => emitString("Math.Pi")
-		case _ => super.emitDirect
+			case SimpleName("Math") :: SimpleName("PI") :: Nil => emitString("Math.Pi")
+			case _ => super.emitDirect
+		}
 	}
 	
 	private def staticTypeRef: Option[Type] =
@@ -100,7 +103,7 @@ abstract class VariableName(node: dom.Name, val vb: VBinding) extends Name(node)
 class MethodName(node: dom.Name, val mb: MBinding) extends Name(node) with MethodBound
 {
 	override def binding = mb
-	override def isStaticReference: Boolean = !isDeclaration && mb.isStatic
+	override def isStaticReference: Boolean = mb.isStatic 	// !isDeclaration && mb.isStatic
 	override def emitNameAsStaticRef: Emission = emitString(mb.getStaticQualifier + "." + currentName)
 	override def emitDirect: Emission = emitString(node.currentName)
 }

@@ -19,7 +19,10 @@ class MethodInvocation(override val node: dom.MethodInvocation) extends Expressi
 	// we glue the expression and simple name together so it's one token
 	// in scala there can be a difference between an empty argument list and no argument list,
 	// but it'd be hard for just-translated java code to be utilizing that distinction...
-	override def emitDirect: Emission = methodTransformation getOrElse emitInvocation
+	override def emitDirect: Emission = {
+		log.trace("MethodInvocation: %s", node)
+		methodTransformation getOrElse emitInvocation
+	}
 	
 	// separated from emitDirect so we can call it from transformation
 	private def emitInvocation: Emission = {
