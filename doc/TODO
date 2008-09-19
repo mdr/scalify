@@ -9,3 +9,4 @@ General:
 * unify icu and cu into one type and use view bounds
 * projections in for-comprehensions for lazy evaluation
 * revisit val => volatile var to see if it can be avoided
+* find deterministic strategy for renaming and id generation so diffs are meaningful

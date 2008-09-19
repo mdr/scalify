@@ -48,7 +48,7 @@ trait NamedDecl extends Named with Modifiable
 class LocalVariableName(override val node: dom.Name, vb: VBinding) extends VariableName(node, vb)
 {
 	override def emitDirect: Emission = {
-		// log.trace("LocalVariableName emitDirect: %s", node.id)
+		log.trace("LocalVariableName: %s", segments)
 		super.emitDirect
 	}
 }
@@ -56,25 +56,31 @@ class ParameterName(override val node: dom.SimpleName, vb: VBinding) extends Var
 class FieldName(override val node: dom.SimpleName, vb: VBinding) extends VariableName(node, vb)
 class QualifiedVariableName(override val node: dom.QualifiedName, vb: VBinding) extends VariableName(node, vb)
 {
-	val maxMinIn = List("Byte", "Short", "Character", "Integer", "Long")
+	lazy val QualifiedName(qual, _) = node
 	private def maxMinOut(s: String) = s match { case "Character" => "CHAR" ; case "Integer" => "INT" ; case _ => allUpper(s) }
+	val maxMinIn = List("Byte", "Short", "Character", "Integer", "Long")
 	val maxMinNutty = List("Float", "Double")
 		
 	override def emitDirect: Emission = {
-		log.trace("QualifiedVariableName: %s", segments)
-		segments match {
-			case SimpleName(x) :: SimpleName("MAX_VALUE") :: Nil if (maxMinIn ::: maxMinNutty) contains x => emitString("Math.MAX_" + maxMinOut(x))
-			case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinIn contains x => emitString("Math.MIN_" + maxMinOut(x))
-			case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinNutty contains x => emitString("Math.EPS_" + maxMinOut(x))
-
-			case SimpleName(x) :: SimpleName("NEGATIVE_INFINITY") :: Nil if maxMinNutty contains x => emitString("Math.NEG_INF_" + maxMinOut(x))
-			case SimpleName(x) :: SimpleName("POSITIVE_INFINITY") :: Nil if maxMinNutty contains x => emitString("Math.POS_INF_" + maxMinOut(x))
-			case SimpleName(x) :: SimpleName("NaN") :: Nil if maxMinNutty contains x => emitString("Math.NaN_" + maxMinOut(x))
-		
-			case SimpleName("Math") :: SimpleName("PI") :: Nil => emitString("Math.Pi")
-			case _ => super.emitDirect
-		}
+		log.trace("QualifiedVariableName: %s (static = %s) (tb = %s) (sq = %s) ", segments, vb.isStatic, qual.tb.getKey, vb.getStaticQualifier)
+		emitScalaMathConstant | 
+		(if (vb.isStatic) INVOKE(emitString(vb.getStaticQualifierPkg + "." + vb.getStaticQualifier), simpleName) else super.emitDirect)
 	}
+	
+	private def emitScalaMathConstant: Option[Emission] = segments match {
+		case SimpleName(x) :: SimpleName("MAX_VALUE") :: Nil if (maxMinIn ::: maxMinNutty) contains x => emitSome("Math.MAX_" + maxMinOut(x))
+		case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinIn contains x => emitSome("Math.MIN_" + maxMinOut(x))
+		case SimpleName(x) :: SimpleName("MIN_VALUE") :: Nil if maxMinNutty contains x => emitSome("Math.EPS_" + maxMinOut(x))
+
+		case SimpleName(x) :: SimpleName("NEGATIVE_INFINITY") :: Nil if maxMinNutty contains x => emitSome("Math.NEG_INF_" + maxMinOut(x))
+		case SimpleName(x) :: SimpleName("POSITIVE_INFINITY") :: Nil if maxMinNutty contains x => emitSome("Math.POS_INF_" + maxMinOut(x))
+		case SimpleName(x) :: SimpleName("NaN") :: Nil if maxMinNutty contains x => emitSome("Math.NaN_" + maxMinOut(x))
+	
+		case SimpleName("Math") :: SimpleName("PI") :: Nil => emitSome("Math.Pi")
+		case _ => None
+	}
+	
+	private def emitSome(s: String): Option[Emission] = Some(emitString(s))
 	
 	private def staticTypeRef: Option[Type] =
 		if (!vb.isStatic) None

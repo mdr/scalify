@@ -21,7 +21,11 @@ class MethodInvocation(override val node: dom.MethodInvocation) extends Expressi
 	// but it'd be hard for just-translated java code to be utilizing that distinction...
 	override def emitDirect: Emission = {
 		log.trace("MethodInvocation: %s", node)
-		methodTransformation getOrElse emitInvocation
+		if (mb.isStatic) {	// XXX
+			val pkg = mb.getStaticQualifierPkg
+			ROOTPKG <~> DOT <~> INVOKE(emitString(pkg), name.emitNameAsStaticRef) <~> boxedArgs
+		}
+		else methodTransformation getOrElse emitInvocation
 	}
 	
 	// separated from emitDirect so we can call it from transformation
