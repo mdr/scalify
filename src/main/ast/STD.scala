@@ -77,8 +77,7 @@ with HasTypes
 	def emitTypeParameters: Emission = TYPEARGS(typeParams)
 	def emitStaticPart: Emission =
 		if (isStaticPartEmpty) Nil
-		else NL ~ OBJECT ~ name ~ BRACES(REP(sfields) ~ REP(sinits) ~ REP(smethods) ~ REP(stypes))
-		/* emitStaticsImport */ 
+		else NL ~ OBJECT ~ name ~ BRACES(emitStaticsImport(false) ~ REP(sfields) ~ REP(sinits) ~ REP(smethods) ~ REP(stypes))
 	
 	// this means emit the "extends SuperClass(a, b)" expression for THIS class
 	// overridden in subclasses
@@ -114,7 +113,7 @@ with HasTypes
 	
 	def emitSTDBody(instancePart: Emission): Emission =
 		BRACES(
-			emitStaticsImport ~ 
+			emitStaticsImport(true) ~ 
 			emitListNL(ifields) ~ 
 			emitListNL(iinits) ~
 			emitListNL(itypes) ~
@@ -130,13 +129,14 @@ with HasTypes
 		else withList(xs)
 	}
 
-	def emitStaticsImport: Emission = {
+	def emitStaticsImport(includeSelf: Boolean): Emission = {
+		def allSupertypes = if (includeSelf) findAllSupertypesWithSelf else findAllSupertypes
 		// if we are an inner class inheriting from our enclosing class, we need to avoid double importing
 		val typeList: List[IType] = 
-			if (tb.isTopLevel) findAllSupertypesWithSelf
+			if (tb.isTopLevel) allSupertypes
 			else {
 				val etype = findEnclosingType.flatMap(_.itype) | abort("error")
-				val okTypes = findAllSupertypesWithSelf.takeWhile(t => t.getKey != etype.getKey)
+				val okTypes = allSupertypes.takeWhile(t => t.getKey != etype.getKey)
 				
 				if (okTypes.isEmpty) List(itype.get) else okTypes
 			}

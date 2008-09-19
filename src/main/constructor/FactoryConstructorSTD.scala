@@ -33,7 +33,7 @@ with ConstructorArrangement
 		emitModifierList ~ emitAbstract ~ CLASS ~ name <~> emitString(num) ~ 
 		mergedTypeParameters(con) ~ METHODARGS(con.parameterList.emitOriginalList) ~
 		superExpr ~ traitExpr ~
-		BRACES(emitStaticsImport ~ NL ~ con.emitBody ~ REP(thisGroup)) ~ NL
+		BRACES(emitStaticsImport(true) ~ NL ~ con.emitBody ~ REP(thisGroup)) ~ NL
 	}
 			
 	def emitInstancePart: Emission = {
@@ -41,7 +41,7 @@ with ConstructorArrangement
 		val superEmit: Emission = superType.map(EXTENDS ~ _.emit) | Nil
 			
 		ABSTRACT ~ TRAIT ~ name ~ TYPEARGS(typeParams) ~ superEmit ~ emitMixins(superIntTypes) ~
-		BRACES(emitStaticsImport ~ REP(ifields) ~ REP(iinits) ~ REP(itypes) ~ REP(nonConstructors)) ~ NL ~
+		BRACES(emitStaticsImport(true) ~ REP(ifields) ~ REP(iinits) ~ REP(itypes) ~ REP(nonConstructors)) ~ NL ~
 		REP(icEmits)
 	}
 	
@@ -52,7 +52,7 @@ with ConstructorArrangement
 		if (node.isAbstract) return Nil
 		
 		OBJECT ~ name ~ BRACES(
-			emitStaticsImport ~ 
+			emitStaticsImport(false) ~ 
 			emitListNL(sfields) ~ 
 			emitListNL(emitAllFactoryMethods) ~ 
 			REP(sinits) ~ 
