@@ -118,8 +118,15 @@ class CatchClause(override val node: dom.CatchClause) extends MiscNode(node)
 class Block(override val node: dom.Block) extends Statement(node)
 {
 	lazy val Block(statements) = node
+	// if they bust out with a block in the middle of wherever, we need whitespace to avoid it looking like refinement
+	lazy val needsWhitespace = node.getParent match {
+		case x: dom.Block => true
+		case _ => false
+		// case x: dom.BodyDeclaration => false
+		// case x if x.isLoopStmt => false
+	}
 	override def stmts: List[dom.Statement] = statements
-	override def emitDirect: Emission = OPTBRACES(stmts)
+	override def emitDirect: Emission = emitCond(needsWhitespace, NL) ~ OPTBRACES(stmts)
 	def allFragments: List[dom.VariableDeclarationFragment] = stmts
 		. flatMap { case x: dom.VariableDeclarationStatement => List(x) ; case _ => Nil }
 		. flatMap { _.frags }

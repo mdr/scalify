@@ -42,21 +42,30 @@ object Forest
 	}
 
 	// search all trees in parallel for nodes meeting a condition
-	def search(f: (JDTMap) => List[ASTNode]): List[ASTNode] = {
+	def search[T](f: (JDTMap) => List[T]): List[T] = {
 		val results = PCompute.runAll(keys, (x: dom.CompilationUnit) => f(getJDTMap(x)))
 			
 		List.flatten(results.values.toList)
 	}
+	// def search(f: (JDTMap) => List[ASTNode]): List[ASTNode] = {
+	// 	val results = PCompute.runAll(keys, (x: dom.CompilationUnit) => f(getJDTMap(x)))
+	// 		
+	// 	List.flatten(results.values.toList)
+	// }
 
-	import scala.actors.Actor. { actor, receive }
+	import scala.actors.Actor. { actor, receive, reply }
 	val renamer = actor {
 		while(true) {
 			receive {
-				case RenameNodeMsg(node) => get(node) match {
+				case SetNodeName(node) => get(node) match {
 					case x: NamedDecl => x.incrementName
 					case _ => abort(node.toString)
 				}
-				case _ => abort()
+				case GetNodeName(node) => get(node) match {
+					case x: Named => reply(x.currentName)
+					case _ => abort(node.toString)
+				}
+				case x => abort(x.toString)
 			}
 		}
 	}

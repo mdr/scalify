@@ -27,6 +27,7 @@ import scalaz.OptionW._
 trait Named { 
 	val name: dom.Name
 	lazy val origName: String = name.origName
+	def currentName = name.currentName
 	def hasSameOriginalNameAs(other: Named) = name.origName == other.name.origName
 }
 

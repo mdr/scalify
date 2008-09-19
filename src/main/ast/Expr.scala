@@ -63,18 +63,32 @@ trait Assigns
 //
 // Scala may not have ++/-- but += and -= have the same only-evaluate-once semantics.
 // 
+//         ExpressionStatement => this.treeHeightStartingSampling=h;
+//           Assignment => this.treeHeightStartingSampling=h
+//             SimpleName => h
+//             FieldAccess => this.treeHeightStartingSampling
+//               SimpleName => treeHeightStartingSampling
+//               ThisExpression => this
 class Assignment(override val node: dom.Assignment) extends Expression(node) with Assigns
 {
 	lazy val Assignment(lhs, JavaOp(op), rhs) = node
+	lazy val variableName: Option[VariableName] = lhs.snode match {
+		case x: VariableName => Some(x)
+		case FieldAccess(ThisExpression(None), v) => v.snode match {
+			case x: VariableName => Some(x)
+			case _ => None
+		}
+		case _ => None
+	}
+	
 	// deferred final assignment handled specially
-	lazy val emitDeferredFinal: Option[Emission] = lhs.snode match {
-		case x: VariableName => 
-			x.vb.findVariableDeclaration match {
-				case Some(v) if v.isDeferredVal =>
-					log.trace("Deferred val declaration: %s", v)
-					Some(v.emitDirect(node) ~ EQUALS ~ rhs)
-				case _ => None
-			}
+	lazy val emitDeferredFinal: Option[Emission] = variableName match {
+		case Some(x) => x.findVariableDeclaration match {
+			case Some(v) if v.isDeferredVal =>
+				log.trace("Deferred val declaration: %s", v)
+				Some(v.emitDirect(node) ~ EQUALS ~ rhs)
+			case _ => None
+		}
 		case _ => None
 	}
 

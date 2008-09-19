@@ -5,37 +5,64 @@ import org.eclipse.jdt.core.dom
 import scala.collection.mutable.HashMap
 import org.eclipse.jdt.core. { IType, IField, IMethod, ILocalVariable }
 
-case class RenameNodeMsg(x: ASTNode)
+case class SetNodeName(x: ASTNode)
+case class GetNodeName(x: ASTNode)
 
 object Renaming {
-	private val searchers = new HashMap[IType, Searcher]
+	private val searchers = new HashMap[IType, Searcher]	
+	
+	// confirmed collisions
+	case class RenameGroup(override val xs: List[ASTNode]) extends NameGroup(xs) {
+		override val collisions: List[NamedDecl] = namedDecls
+	}
+	case class NameGroup(xs: List[ASTNode]) {
+		val namedDecls: List[NamedDecl] = getDecls(xs)
+		val collisions: List[NamedDecl] = compareAll(namedDecls)
+	}
 	
 	// main entry point
 	def performAllRenaming = {
-		val nodesToRename: List[ASTNode] = Forest.search(Renaming.findCollisions(_)).removeDuplicates
-		println(nodeInfo(nodesToRename))
+		val groups: List[NameGroup] = Forest.search(Renaming.findCollisions(_))
+		val collisions = groups.flatMap(_.collisions).removeDuplicates
+		println(nodeInfo(collisions.map(_.node)))
+		
+		def groupRenaming(xs: List[NamedDecl]): Unit = xs match {
+			case Nil => return
+			case x :: rest => 
+				val targets = xs.filter(y => compareNamesVolatile(x, y))
+				for (t <- targets) Forest.renamer ! SetNodeName(t.node)
+				groupRenaming(rest)
+		}
 
-		for (node <- nodesToRename) 
-			Forest.renamer ! RenameNodeMsg(node)
-
-		// for collisions among collisions
-		doAnotherRename(nodesToRename)		
+		def compareNamesVolatile(n1: NamedDecl, n2: NamedDecl): Boolean = {
+			val c1 = Forest.renamer !? GetNodeName(n1.node)
+			val c2 = Forest.renamer !? GetNodeName(n2.node)
+			
+			c1 == c2
+		}
+		
+		groups.foreach(g => groupRenaming(g.collisions))
+		// for (node <- nodesToRename) 
+		// 	Forest.renamer ! RenameNodeMsg(node)
+		// 
+		// // for collisions among collisions
+		// doAnotherRename(nodesToRename)		
 	}
 	
-	private def findCollisions(jdtMap: JDTMap): List[ASTNode] = {
+	private def findCollisions(jdtMap: JDTMap): List[NameGroup] = {
 		val results = 
 			for ((node, snode) <- jdtMap.table) yield {
 				node match {
 					case x: dom.TypeDeclaration => doTypeRenaming(x)
 					// case x: dom.MethodDeclaration if x.isConstructor && x.isPrimary=> doConstructorRenaming(x)
-					case x: dom.MethodDeclaration => doMethodRenaming(x)
-					case x: dom.FieldDeclaration => doFieldRenaming(x)
+					case x: dom.MethodDeclaration if !x.isConstructor => doMethodRenaming(x)	// constructors handled in type
+					// case x: dom.FieldDeclaration => doFieldRenaming(x)
 					// case x: dom.VariableDeclaration => doVariableRenaming(x)
 					case _ => Nil
 				}
 			}
-			
-		List.flatten(results.toList).removeDuplicates
+
+		List.flatten(results.toList.filter(_ != Nil))
 	}
 	
 	private def getSearcher(node: ASTNode): Searcher = synchronized {
@@ -47,7 +74,7 @@ object Renaming {
 		}
 	}
 	
-	private def doTypeRenaming(node: dom.TypeDeclaration): List[ASTNode] = {
+	private def doTypeRenaming(node: dom.TypeDeclaration): List[NameGroup] = {
 		val params = node.independentConstructors.flatMap(_.params)		
 		val fieldRenames = 
 			for {
@@ -56,13 +83,16 @@ object Renaming {
 			} yield f
 		val paramRenames = for (p <- params ; if node.methods.exists(compareNames(p, _))) yield p
 		
-		fieldRenames ::: paramRenames
+		List(RenameGroup(fieldRenames ::: paramRenames))
 	}
 	
-	private def doFieldRenaming(node: dom.FieldDeclaration): List[ASTNode] = for { 
-		frag <- node.allFragments
-		if getSearcher(node).doesFieldNeedRenaming(frag)
-	} yield frag
+	// private def doFieldRenaming(node: dom.FieldDeclaration): List[NameGroup] =
+	// 	List(RenameGroup(
+	// 		for { 
+	// 			frag <- node.allFragments
+	// 			if getSearcher(node).doesFieldNeedRenaming(frag)
+	// 		} yield frag
+	// 	))
 				
 	// private def doConstructorRenaming(node: dom.MethodDeclaration): List[ASTNode] = {
 	// 	val nodes = 
@@ -82,12 +112,11 @@ object Renaming {
 	// 	compareAllNames(allNameDecls)
 	// }
 	
-	private def doMethodRenaming(node: dom.MethodDeclaration): List[ASTNode] = {
+	private def doMethodRenaming(node: dom.MethodDeclaration): List[NameGroup] = {
 		val allBlocks = node.descendants.flatMap { case x: dom.Block => List(x) ; case _ => Nil }
-		val nodes = allBlocks.flatMap(doScopeRenaming).removeDuplicates
 		
-		nodes
-		
+		allBlocks.flatMap(doScopeRenaming)
+				
 		// val fors = node.stmts.flatMap { case x: dom.ForStatement => List(x) ; case _ => Nil }
 		// val methodRename = if (getSearcher(node).doesMethodNeedRenaming(node)) List(node) else Nil
 		// val forLoopRenames = doForLoopRenaming(fors)
@@ -101,7 +130,7 @@ object Renaming {
 	}
 	
 	// does for loop renaming within a single scope
-	private def doScopeRenaming(node: dom.Block): List[ASTNode] = {
+	private def doScopeRenaming(node: dom.Block): List[NameGroup] = {
 		val fors = node.stmts.flatMap { case x: dom.ForStatement => List(x) ; case _ => Nil }
 		val forVars = fors flatMap { _.inits } flatMap { _.allFragments }
 		val localVars = node.allFragments
@@ -110,49 +139,39 @@ object Renaming {
 		// 	case _ => Nil
 		// }
 		
-		compareAllNodes(forVars ::: localVars)
+		List(NameGroup(forVars ::: localVars))
 	}
 	
-	// given a list of NamedDecls in the same scope, returns list of nodes needing renaming
-	private def compareAllNodes(xs: List[ASTNode]): List[ASTNode] = {
-		def compareAllNames(xs: List[NamedDecl]): List[ASTNode] = xs match {
-			case Nil => Nil
-			case x :: Nil => Nil
-			case x :: rest => 
-				if (rest.exists(y => compareNames(x, y))) (x.node :: compareAllNames(rest))
-				else compareAllNames(rest)
-		}	
-		
-		val names = xs.map(_.snode) flatMap { case x: NamedDecl => List(x) ; case _ => Nil }
-		compareAllNames(names)
-	}
+	// // given a list of NamedDecls in the same scope, returns list of nodes needing renaming
+	// private def compareAllNodes(xs: List[ASTNode]): List[ASTNode] = {
+	// 	def compareAllNames(xs: List[NamedDecl]): List[ASTNode] = xs match {
+	// 		case Nil => Nil
+	// 		case x :: Nil => Nil
+	// 		case x :: rest => 
+	// 			if (rest.exists(y => compareNames(x, y))) (x.node :: compareAllNames(rest))
+	// 			else compareAllNames(rest)
+	// 	}	
+	// 	
+	// 	val names = xs.map(_.snode) flatMap { case x: NamedDecl => List(x) ; case _ => Nil }
+	// 	compareAllNames(names)
+	// }
 	
 
 	private def compareNames(n1: NamedDecl, n2: NamedDecl): Boolean =
 		// if (n1.isPrivate && n2.isPrivate) false else  		XXX needs to be more specific, i.e. private method and private field in same class
+		// n1.hasSameReferenceNameAs(n2)
 		n1.hasSameReferenceNameAs(n2)
-		
 
-	private def doAnotherRename(nodes: List[ASTNode]) = {		
-		def dar(xs: List[NamedDecl]): Unit = xs match {
-			case Nil => return
-			case x :: rest =>
-				val targets = rest.filter(y => Renaming.compareNames(x, y))
-				targets.foreach { y => Forest.renamer ! RenameNodeMsg(y.node) }
-				dar(rest)
-				// 
-				// rest.find(y => Renaming.compareNames(x, y)) match {
-				// 	case None => dar(rest)
-				// 	case Some(y) => 
-				// 		Forest.renamer ! RenameNodeMsg(x.node)
-				// 		dar(rest)
-				// }
-		}
-		
-		val namedDecls = nodes.map(_.snode).flatMap { case x: NamedDecl => List(x) ; case _ => Nil }
-		dar(namedDecls)
+	// returns list of nodes needing renaming in the given set - which excludes the first of each colliding set
+	private def compareAll(xs: List[NamedDecl]): List[NamedDecl] = xs match {
+		case Nil => Nil
+		case x :: rest =>			
+			val (collisions, others) = rest.partition(y => Renaming.compareNames(x, y))
+			if (collisions.isEmpty) compareAll(rest)
+			else collisions ::: compareAll(others)
 	}
 		
+	private def getDecls(xs: List[ASTNode]): List[NamedDecl] = xs.map(_.snode).flatMap { case x: NamedDecl => List(x) ; case _ => Nil }
 	private def nodeInfo(xs: List[ASTNode]): String = {
 		type HasName = ASTNode { def getName(): dom.SimpleName }
 		val pairs = xs.map { x => (getICU(x.cu).getElementName, x.asInstanceOf[HasName].getName.getIdentifier) }
