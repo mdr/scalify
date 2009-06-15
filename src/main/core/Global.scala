@@ -5,8 +5,7 @@ import org.eclipse.jdt.core._
 import org.eclipse.jdt.core.dom
 import scala.collection.mutable.{ HashMap, HashSet }
 import scala.collection.immutable
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 object Global {
 	private var members: Members = _
 	var javaProject: IJavaProject = _
@@ -35,7 +34,7 @@ object Global {
 	def typeExists(fqname: String) = {
 		log.trace("typeExists? %s", fqname)
 		types.values.exists {
-			case std: dom.TypeDeclaration => std.itype.map(_.getFullyQualifiedName == fqname) | false
+			case std: dom.TypeDeclaration => std.itype.map(_.getFullyQualifiedName == fqname) getOrElse false
 			case _ => false
 		}		
 	}

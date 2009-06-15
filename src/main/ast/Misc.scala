@@ -4,8 +4,7 @@ import Scalify._
 import Global._
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 class TypeParameter(override val node: dom.TypeParameter) extends MiscNode(node) with TypeBound
 {
 	lazy val TypeParameter(name, bounds) = node

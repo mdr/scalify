@@ -5,8 +5,7 @@ import org.eclipse.jdt.core.dom
 
 import scala.collection.mutable.HashMap
 import org.eclipse.jdt.core.dom.{ PrimitiveType => PT }
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 // All type nodes represent *references* to types.  Declarations are elsewhere.
 
 

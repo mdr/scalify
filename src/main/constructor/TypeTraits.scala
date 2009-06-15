@@ -2,8 +2,7 @@ package org.improving.scalify
 
 import Scalify._
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 trait HasTypes
 {
 	val node: ASTNode

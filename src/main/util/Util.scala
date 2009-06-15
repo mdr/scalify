@@ -2,7 +2,7 @@ package org.improving.scalify
 
 trait Util
 {	
-	def nullToOption[T >: Null](x: T): Option[T] = if (x == null) None else Some(x)
+	def onull[T](x: T): Option[T] = if (x == null) None else Some(x)
 	
 	// Unique id generator for function labels
 	object IdGen {

@@ -3,8 +3,7 @@ package org.improving.scalify
 import Scalify._
 import org.eclipse.jdt.core.{ IType, IMethod }
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 // trait for all ast types that have modifiers
 trait Modifiable
 {
@@ -69,7 +68,7 @@ trait Overrider
 	// 4) M and M' both define polymorphic methods with equal number of argument types and equal numbers of type parameters
 	def isOverride: Boolean = {
 		log.trace("isOverride for method %s(%s) supers: %s", node.name, 
-			mb.imethod.map(_.getSignature) | "???", dtype.findAllSupertypes.map(_.id))
+			mb.imethod.map(_.getSignature) getOrElse "???", dtype.findAllSupertypes.map(_.id))
 		
 		if (mb.isStatic)									false	// by definition, as objects don't have superclasses
 		else if (overridesMethodInScalaObject(origName))	true	// check this early
@@ -119,7 +118,7 @@ trait Overrider
 			op.open(null)
 		}
 
-		val imethod = mb.imethod | (return false)		
+		val imethod = mb.imethod getOrElse (return false)		
 		val methods = it.findMethods(imethod)
 		
 		if (methods == null || methods.size == 0) {

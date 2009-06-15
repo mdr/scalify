@@ -14,8 +14,13 @@ object Compat
         def subList(from: Int, to: Int): List[T] = xs.slice(from, to)
     }
 
-    // "covariant" arrays
-	implicit def covariantArrays[T, U >: T](xs: Array[T]): Array[U] = xs.asInstanceOf[Array[U]]
+  // "covariant" arrays
+  implicit def covariantArrays[T <: AnyRef, U](xs: Array[T]): Array[U] = xs.asInstanceOf[Array[U]]
+  implicit def cov2[T <: AnyVal, U](xs: Array[T]): Array[U] = xs.map(_.asInstanceOf[U])
+  // implicit def covariantArrays[T <: AnyRef, U >: T](xs: Array[T]): Array[U] = xs.asInstanceOf[Array[U]]
+  // implicit def cov1[T <: AnyVal, U <: AnyVal](xs: Array[T]): Array[U] xs.asInstanceOf[Array[U]]
+  // implicit def cov1(xs: Array[Char]): Array[Int] = xs.map(_.toInt)
+  // implicit def cov2(xs: Array[Char]): Array[Byte] = xs.map(_.toByte)
 
 	// talk about a problem solver
 	implicit def castClassObjects[T, U](x: Class[T]): Class[U] = x.asInstanceOf[Class[U]]

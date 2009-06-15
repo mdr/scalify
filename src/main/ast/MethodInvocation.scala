@@ -2,8 +2,7 @@ package org.improving.scalify
 
 import Scalify._
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 class MethodInvocation(override val node: dom.MethodInvocation) extends Expression(node) with MethodBound
 {
 	lazy val MethodInvocation(expr, typeArgs, name, args) = node
@@ -39,8 +38,8 @@ class MethodInvocation(override val node: dom.MethodInvocation) extends Expressi
 				// for uses like int head = head(), we can avoid renaming by saying head = this.head
 				if (declaresLocalVarNamed(name)) {
 					log.trace("Qualifying %s to this.%s in %s", name.id, name.id, eMethod.map(_.id) | "?")
-					if (isInAnonDeclaration || (findEnclosingType.map(!_.tb.isTopLevel) | false)) { 
-						val typeQualifier = findEnclosingType.map(t => emitString(t.tb.getName)) | Nil
+					if (isInAnonDeclaration || (findEnclosingType.map(!_.tb.isTopLevel) getOrElse false)) { 
+						val typeQualifier = findEnclosingType.map(t => emitString(t.tb.getName)) getOrElse Nil
 						log.trace("Qualifying inner collision %s with %s", method, typeQualifier)
 						INVOKE(INVOKE(typeQualifier, THIS), name)
 					}
@@ -56,7 +55,7 @@ class MethodInvocation(override val node: dom.MethodInvocation) extends Expressi
 	}
 	
 	private def declaresLocalVarNamed(v: dom.SimpleName): Boolean = {
-		val localVars = eMethod.map(_.localVars) | Nil
+		val localVars = eMethod.map(_.localVars) getOrElse Nil
 		log.trace("Qualifying %s in %s? localVars = %s", v.getIdentifier, eMethod.map(_.id) | "?", localVars.map(_.name))
 		localVars.exists(_.origName == v.getIdentifier)
 	}
@@ -114,7 +113,7 @@ class MethodInvocation(override val node: dom.MethodInvocation) extends Expressi
 		
 	private def qualTransforms(x: dom.QualifiedName): Option[Emission] = {
 		// look for a declaration in scope that conflicts with the one we're thinking about unqualifying
-		val ids = (eMethod.map(_.allVariableDeclarations) | Nil).map(_.name)
+		val ids = (eMethod.map(_.allVariableDeclarations) getOrElse Nil).map(_.name)
 		if (ids.exists { case SimpleName(x) if x == method => true ; case _ => false }) None
 		else x.unqualify match {
 			// removing System.out. and Console. noise

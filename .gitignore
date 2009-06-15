@@ -9,3 +9,4 @@
 /osgi/org.improving.scalify.osgi.jar
 /demo/oroScala
 /lib/scalify.jar
+.scala_dependencies

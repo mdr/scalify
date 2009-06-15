@@ -2,8 +2,7 @@ package org.improving.scalify
 
 import Scalify._
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 
 // Statement Classes:
 // 
@@ -34,7 +33,7 @@ extends Statement(node) with MethodBound
 	
 	lazy val superExpr: Emission =
 		(for (etype <- node.findEnclosingType ; superType <- etype.superType) yield 
-			superType.emitExprWhenSuper(Some(node))) | Nil
+			superType.emitExprWhenSuper(Some(node))) getOrElse Nil
 		
 	override def emitDirect: Emission = {
 		log.trace("SuperConstructorInvocation emitDirect: %s", superExpr)
@@ -46,7 +45,7 @@ extends Statement(node) with MethodBound
 class ReturnStatement(override val node: dom.ReturnStatement) extends Statement(node)
 {
 	lazy val ReturnStatement(expr) = node
-	lazy val inConstructor = findEnclosingMethod.map(_.isConstructor) | false
+	lazy val inConstructor = findEnclosingMethod.map(_.isConstructor) getOrElse false
 
 	override def emitDirect: Emission =
 		if (inConstructor) THROW ~ NEW ~ emitString("ConstructorEarlyReturn") ~ NL
@@ -95,7 +94,7 @@ class IfStatement(override val node: dom.IfStatement) extends Statement(node)
 class TryStatement(override val node: dom.TryStatement) extends Statement(node)
 {
 	lazy val TryStatement(body, catchClauses, fin) = node
-	override def emitDirect: Emission = emitTry(body, catchClauses.map(_.emit), fin.map(_.emit) | Nil)	
+	override def emitDirect: Emission = emitTry(body, catchClauses.map(_.emit), fin.map(_.emit) getOrElse Nil)	
 }
 
 // scala requires case variables to start with a lower case letter

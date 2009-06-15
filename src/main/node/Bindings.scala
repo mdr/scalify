@@ -4,8 +4,7 @@ import Scalify._
 import org.eclipse.jdt.core._
 import org.eclipse.jdt.core.dom
 import dom.{ PrimitiveType => PT }
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 // ***** getDeclaringNode *****
 // * <li>package - a <code>PackageDeclaration</code></li>
 // * <li>class or interface - a <code>TypeDeclaration</code> or a
@@ -163,9 +162,9 @@ object Bindings
 			lhs.getErasure.isCastCompatible(tb.getErasure)
 
 		def isAssignableTo(lhs: ASTNode): Boolean = 
-			lhs.tbinding.map(isAssignableTo(_)) | false
+			lhs.tbinding.map(isAssignableTo(_)) getOrElse false
 		def isCastableTo(lhs: ASTNode): Boolean =
-			lhs.tbinding.map(isCastableTo(_)) | false
+			lhs.tbinding.map(isCastableTo(_)) getOrElse false
 			
 		def isSameElementType(other: TBinding): Boolean =
 			tb.isArray && other.isArray && tb.getElementType.isEqualTo(other.getElementType)
@@ -177,7 +176,7 @@ object Bindings
 			itype.flatMap(declaration) match 
 			{ case Some(x: dom.TypeDeclaration) => Some(x) ; case _ => None }
 		}
-		override def referenceName = findTypeDeclaration.map(_.referenceName) | tb.getName
+		override def referenceName = findTypeDeclaration.map(_.referenceName) getOrElse tb.getName
 
 		def methods: List[MBinding] = tb.getDeclaredMethods.toList
 		def pkgName: String = if (tb.getPackage == null) "" else tb.getPackage.getName
@@ -224,12 +223,12 @@ object Bindings
 		// 	x
 		// }
 		override def declaringClassList: List[TBinding] = declaringClassList(mb.getDeclaringClass)
-		override def referenceName = findMethodDeclaration.map(_.referenceName) | mb.getName
+		override def referenceName = findMethodDeclaration.map(_.referenceName) getOrElse mb.getName
 	}
 	
 	class RichIVariableBinding(vb: VBinding) extends RichIBinding(vb) {		
-		def declaredInConstructor: Boolean = onull(vb.getDeclaringMethod).map(_.isConstructor) | false		
-		override def referenceName = findVariableDeclaration.map(_.referenceName) | vb.getName
+		def declaredInConstructor: Boolean = onull(vb.getDeclaringMethod).map(_.isConstructor) getOrElse false		
+		override def referenceName = findVariableDeclaration.map(_.referenceName) getOrElse vb.getName
 		def findVariableDeclaration: Option[dom.VariableDeclaration] = jelement match {
 			case Some(x: IField) => declaration(x)
 			case Some(x: ILocalVariable) => declaration(x, vb)
@@ -243,7 +242,7 @@ object Bindings
 		import org.eclipse.jdt.core.BindingKey
 		def referenceName: String = b.getName
 		
-		lazy val node: ASTNode = Global.lookup(b.getKey) | null
+		lazy val node: ASTNode = Global.lookup(b.getKey) getOrElse null
 		lazy val snode: Node = if (node == null) null else node.snode	
 		def jelement: Option[IJavaElement] = onull(b.getJavaElement)		
 		def flags = b.getModifiers
@@ -268,8 +267,8 @@ object Bindings
 			else declaringClassList(b.getDeclaringClass) ::: List(b)
 		
 		def canAccessWithoutQualifying(node: ASTNode): Boolean = {
-			val bindingClass = b.getOptDeclaringClass | (return false)
-			val nodeClass = node.findEnclosingType.map(_.tb) | (return false)
+			val bindingClass = b.getOptDeclaringClass getOrElse (return false)
+			val nodeClass = node.findEnclosingType.map(_.tb) getOrElse (return false)
 			
 			// sadly, inside constructors the static import hasn't kicked off yet			
 			bindingClass.isEqualTo(nodeClass) && !node.isInConstructor

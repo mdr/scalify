@@ -6,7 +6,7 @@ PLUGINS =
     else 'osgi/plugins'
   end
   
-LIBS="#{PLUGINS}/\* lib/configgy.jar lib/scalaz.jar lib/scalax.jar"
+LIBS="#{PLUGINS}/\* lib/configgy.jar lib/scalax.jar"
 CP = "-classpath " + LIBS.split.join(":")
 DESTPATH = "target/classes"
 SOURCEPATH = 'src/main/'
@@ -20,7 +20,7 @@ VMARGS = "" # "-vmargs -XX:+UseParallelGC"
 
 OSGIJAR = "osgi/org.improving.scalify.osgi.jar"
 OSGIBND = "osgi/org.improving.scalify.osgi.bnd"
-OSGIOPTS = "-jar org.eclipse.osgi_3.4.0.v20080605-1900.jar -configuration configuration -console"
+OSGIOPTS = "-jar org.eclipse.osgi_3.5.0.v20090127-1630.jar -configuration configuration -console"
 BND = "java -jar lib/bnd.jar -exceptions"
 
 src = Array.new

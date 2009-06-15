@@ -38,7 +38,7 @@ trait Implicits extends SafeImplicits with WrapperImplicits
 	implicit def enrichIMETH(x: IMethod): RichIMethod = new RichIMethod(x)
 		
 	// XXX should use OptionW uniformly
-	implicit def optionToBoolean(x: Option[Boolean]): Boolean = x getOrElse false
+  // implicit def optionToBoolean(x: Option[Boolean]): Boolean = x getOrElse false
 	
     // nodes to emissions
 	implicit def nodeToEmission[T <: ASTNode](x: T): Emission = enrichNode(x).emit				// ASTNode -> Emission

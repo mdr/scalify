@@ -3,8 +3,7 @@ package org.improving.scalify
 import Scalify._
 import org.eclipse.jdt.core.dom.{ PrimitiveType => PT }
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 // *** TRANSFORMATIONS TO DO ***
 // 
 // new Double(IntLiteral) => IntLiteral NOS "d"			OR	new java.lang.Double(IntLiteral)
@@ -173,7 +172,7 @@ class FieldAccess(override val node: dom.FieldAccess) extends Expression(node) w
 		if (!vb.isStatic) None
 		else vb.findVariableDeclaration.map(_.jtype)
 		
-	private def isStaticBinaryRef = vb.isStatic && (staticTypeRef.flatMap(_.itype).map(_.isBinary) | false)	
+	private def isStaticBinaryRef = vb.isStatic && (staticTypeRef.flatMap(_.itype).map(_.isBinary) getOrElse false)	
 	// 
 	// override def isStaticReference = isStaticBinaryRef || super.isStaticReference		
 	// override def emitNameAsStaticRef: Emission = staticTypeRef.map(x => emitString(x.tb.fqname + "." + currentName)) | super.emitNameAsStaticRef	

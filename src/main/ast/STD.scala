@@ -3,8 +3,7 @@ package org.improving.scalify
 import Scalify._
 import org.eclipse.jdt.core._
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 import org.eclipse.jdt.core.dom.Modifier.ModifierKeyword._
 import scala.collection.mutable.HashMap
 
@@ -101,7 +100,7 @@ with HasTypes
 					
 	// traits and different sorts of classes have much in common
 	def emitSTDHeader(typeArgs: Emission, conArgs: Emission): Emission = 
-		emitSTDHeader(typeArgs, conArgs, superType.map(x => EXTENDS ~ x.emit) | Nil)
+		emitSTDHeader(typeArgs, conArgs, superType.map(x => EXTENDS ~ x.emit) getOrElse Nil)
 	def emitSTDHeader(typeArgs: Emission, conArgs: Emission, superArgs: Emission): Emission = {
 		emitFactoryImports ~
 	    emitModifierList ~ 

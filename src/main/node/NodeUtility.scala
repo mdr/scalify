@@ -26,12 +26,12 @@ trait NodeUtility
 		(lhs match {
 			// Setting Varargs = Array
 			case x: dom.SingleVariableDeclaration if x.isVarargs && node.isArray =>
-				for (tb <- tbinding ; val el = tb.getElementType)
-					yield el.isAssignableTo(lhs) || el.isCastableTo(lhs)
+				(for (tb <- tbinding ; val el = tb.getElementType)
+					yield el.isAssignableTo(lhs) || el.isCastableTo(lhs)) getOrElse false
 			// Setting String = Array[Char]
 			case x: dom.SingleVariableDeclaration if x.isString && node.isCharArray => true
 			case _ => false				
-		})
+		}) 
 	
 	
 	def isConvertibleTo(lhs: ASTNode): Boolean =
@@ -52,28 +52,28 @@ trait NodeUtility
 	
 	def isChar:			Boolean = isSomeType(PT.CHAR)
 	def isInt:			Boolean = isSomeType(PT.INT)
-	def isCharArray:	Boolean = tbinding.map(_.isCharArray)
-	def isString:		Boolean = tbinding.map(_.isString)
-	def isArray:		Boolean = tbinding.map(_.isArray)
+	def isCharArray:	Boolean = tbinding.map(_.isCharArray) getOrElse false
+	def isString:		Boolean = tbinding.map(_.isString) getOrElse false
+	def isArray:		Boolean = tbinding.map(_.isArray) getOrElse false
 
-	def isPrimitiveType: Boolean = tbinding.map(_.isPrimitive)
-	def isAnyValType: Boolean = tbinding.map(_.isAnyValType)
-	def isReferenceType: Boolean = tbinding.map(_.isReferenceType)
+	def isPrimitiveType: Boolean = tbinding.map(_.isPrimitive) getOrElse false
+	def isAnyValType: Boolean = tbinding.map(_.isAnyValType) getOrElse false
+	def isReferenceType: Boolean = tbinding.map(_.isReferenceType) getOrElse false
 	
-	def isSomeType(code: PT.Code): Boolean = tbinding.map(_.isSomeType(code))
-	def isSomeType(s: String): Boolean = tbinding.map(_.isSomeType(s))
+	def isSomeType(code: PT.Code): Boolean = tbinding.map(_.isSomeType(code)) getOrElse false
+	def isSomeType(s: String): Boolean = tbinding.map(_.isSomeType(s)) getOrElse false
 	
 	def isAssignableTo(lhs: ASTNode): Boolean = 
-		for (ltb <- lhs.tbinding ; rtb <- tbinding) yield rtb.isAssignableTo(ltb)
+		(for (ltb <- lhs.tbinding ; rtb <- tbinding) yield rtb.isAssignableTo(ltb)) getOrElse false
 	def isCastableTo(lhs: ASTNode): Boolean =
-		for (ltb <- lhs.tbinding ; rtb <- tbinding) yield rtb.isCastableTo(ltb)		
+		(for (ltb <- lhs.tbinding ; rtb <- tbinding) yield rtb.isCastableTo(ltb)) getOrElse false
 	def isSameTypeBinding(other: ASTNode): Boolean =
-		for (tb1 <- tbinding ; tb2 <- other.tbinding) yield tb1.isEqualTo(tb2)
+		(for (tb1 <- tbinding ; tb2 <- other.tbinding) yield tb1.isEqualTo(tb2)) getOrElse false
 
 	def isSameElementType(other: TBinding): Boolean = 
-		for (tb <- tbinding) yield tb.isSameElementType(other)
+		(for (tb <- tbinding) yield tb.isSameElementType(other)) getOrElse false
 	def isSameElementType(other: ASTNode): Boolean = 
-		for (tb1 <- tbinding ; tb2 <- other.tbinding) yield tb1.isSameElementType(tb2)
+		(for (tb1 <- tbinding ; tb2 <- other.tbinding) yield tb1.isSameElementType(tb2)) getOrElse false
 	
 	def compareSimpleNames(n1: dom.SimpleName, n2: dom.SimpleName): Boolean = n1.getIdentifier == n2.getIdentifier
 

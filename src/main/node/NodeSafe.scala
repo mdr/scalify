@@ -5,18 +5,18 @@ import org.eclipse.jdt.core.dom
 import org.eclipse.jdt.core.compiler.IProblem
 import scala.collection.immutable
 import scala.collection.mutable.{ HashMap, HashSet }
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 trait SafeImplicits
 {
 	// why oh why
 	implicit def seqToList[T](x: Seq[T]): List[T] = x.toList
 		
 	// java.util.List[?0] => List[T]    
-	implicit def jListToScalaList[T](jlist: java.util.List[T] forSome { type T; }): List[T] = {
-	    	val tjlist: java.util.List[T] = jlist.asInstanceOf[java.util.List[T]]
-	    	val tarray: Array[T] = tjlist.toArray.map { x => x.asInstanceOf[T] }
-	    	tarray.toList
+	implicit def rawListToScalaList[T](jlist: java.util.List[T] forSome { type T; }): List[T] = {
+		jlist.toArray.toList.map(_.asInstanceOf[T])
+    	// val tjlist: java.util.List[T] = jlist.asInstanceOf[java.util.List[T]]
+    	// val tarray: Array[T] = tjlist.toArray.map { x => x.asInstanceOf[T] }
+    	// tarray.toList
 	}   
 	
 	implicit def jArrayToScalaList[T](jarray: Array[T]): List[T] = {
@@ -63,7 +63,7 @@ abstract trait ASTNodeSafe extends TreeSafe
 	} head
 	
 	def fqname: String = node match { case x: dom.Name => x.getFullyQualifiedName ; case _ => "<Unknown>" }
-	def pkgName: String = onull(cu.getPackage).map(_.getName.getFullyQualifiedName) | ""
+	def pkgName: String = onull(cu.getPackage).map(_.getName.getFullyQualifiedName) getOrElse ""
 	def pkgSegments: List[String] = pkgName.split('.').toList
 	def subPkgs: List[String] = (1 to pkgSegments.size).toList.map(i => pkgSegments.take(i).mkString("."))
 	

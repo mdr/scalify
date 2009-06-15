@@ -3,14 +3,13 @@ package org.improving.scalify
 import Scalify._
 import org.eclipse.jdt.core._
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 class EqualsMethod(node: dom.MethodDeclaration) extends MethodDeclaration(node)
 {
 	lazy val SingleVariableDeclaration(_, _, _, paramName, _, _) = parameterList.svds.head
 	
 	override def emitDirect: Emission = {
-		(mb.imethod.map(_.srcWithoutComments) | Nil) ~
+		(mb.imethod.map(_.srcWithoutComments) getOrElse Nil) ~
 		OVERRIDE ~ DEF ~ emitString("equals") <~> PARENS(paramName <~> COLON ~ ANY) <~> COLON ~ BOOLEAN ~ 
 		emitBody(parameterList.emitRenamings)
 	}
@@ -30,7 +29,7 @@ with MethodBound with NamedDecl with Overrider
 	val isPrimary = false
 	lazy val dtype: dom.TypeDeclaration = findDeclaringType.get
 	lazy val enclosingType: dom.TypeDeclaration = findEnclosingType.get
-	lazy val isMainMethod: Boolean = mb.imethod.map(_.isMainMethod) | false
+	lazy val isMainMethod: Boolean = mb.imethod.map(_.isMainMethod) getOrElse false
 	lazy val parameterList: ParameterList = ParameterList(params)
 	lazy val localVars = node.descendants.map(_.snode).flatMap { case x: LocalVariable => List(x) ; case _ => Nil }
 	
@@ -61,7 +60,7 @@ with MethodBound with NamedDecl with Overrider
 		}) ::: dummy
 
     override def emitDirect: Emission = {
-		(mb.imethod.map(_.srcWithoutComments) | Nil) ~
+		(mb.imethod.map(_.srcWithoutComments) getOrElse Nil) ~
 		emitOverride ~
 		emitModifierList ~
 		DEF ~ METHOD(name, typeParams, parameterList.emitList) ~

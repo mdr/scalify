@@ -3,8 +3,7 @@ package org.improving.scalify
 import Scalify._
 import org.eclipse.jdt.core.ITypeHierarchy
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 abstract trait ASTNodeAdditions extends ASTNodeSafe
 {	
 	// usually we use the implicits, but sometimes we need to force a conversion

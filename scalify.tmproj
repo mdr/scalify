@@ -35,6 +35,8 @@
 			<string>osgi</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>doc</string>
 			<key>regexFolderFilter</key>
@@ -163,8 +165,8 @@
 		</dict>
 	</dict>
 	<key>showFileHierarchyDrawer</key>
-	<false/>
+	<true/>
 	<key>windowFrame</key>
-	<string>{{8, 0}, {1478, 1028}}</string>
+	<string>{{252, 0}, {1178, 878}}</string>
 </dict>
 </plist>

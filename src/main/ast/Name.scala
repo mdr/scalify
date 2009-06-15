@@ -2,8 +2,7 @@ package org.improving.scalify
 
 import Scalify._
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 // *   <li>An expression like "foo.this" can only be represented as a this
 // *   expression (<code>ThisExpression</code>) containing a simple name.
 // *   "this" is a keyword, and therefore invalid as an identifier.</li>
@@ -87,7 +86,7 @@ class QualifiedVariableName(override val node: dom.QualifiedName, vb: VBinding) 
 		if (!vb.isStatic) None
 		else vb.findVariableDeclaration.map(_.jtype)
 		
-	private def isStaticBinaryRef = vb.isStatic && (staticTypeRef.flatMap(_.itype).map(_.isBinary) | false)	
+	private def isStaticBinaryRef = vb.isStatic && (staticTypeRef.flatMap(_.itype).map(_.isBinary) getOrElse false)	
 	
 	override def isStaticReference = isStaticBinaryRef || super.isStaticReference		
 	override def emitNameAsStaticRef: Emission = staticTypeRef.map(x => emitString(x.tb.fqname + "." + currentName)) | super.emitNameAsStaticRef
@@ -99,7 +98,7 @@ abstract class VariableName(node: dom.Name, val vb: VBinding) extends Name(node)
 	override def isStaticReference = 
 		!isDeclaration &&
 		vb.isStatic &&
-		((findEnclosingType.map(_.tb.isFactoryType) | false) || (findEnclosingMethod.map(_.mb.isConstructor) | false))
+		((findEnclosingType.map(_.tb.isFactoryType) getOrElse false) || (findEnclosingMethod.map(_.mb.isConstructor) getOrElse false))
 
 	override def emitNameAsStaticRef: Emission = emitString(vb.getStaticQualifier + "." + currentName)
 	override def currentName: String = 

@@ -1,7 +1,6 @@
 package org.improving.scalify
 
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
 import scala.collection.mutable.ListBuffer
 
 object NodeFactory
@@ -166,7 +165,7 @@ object NodeFactory
 		
 		private def isIndependent(node: dom.MethodDeclaration): Boolean = {
 			val body = onull(node.getBody)
-			val stmts: List[ASTNode] = body.map(_.statements.toList) | Nil				
+			val stmts: List[ASTNode] = body.map(_.statements.toList) getOrElse Nil				
 			stmts match {
 				case (x: dom.ConstructorInvocation) :: _ => false
 				case _ => true

@@ -2,8 +2,7 @@ package org.improving.scalify
 
 import Scalify._
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 trait ConstructorOrdering extends PartiallyOrdered[Constructor]
 {
 	self: Constructor =>
@@ -35,7 +34,7 @@ extends Constructor(node)
 {
 	override val isPrimary = true
 	val superCall = stmts match { case (x: dom.SuperConstructorInvocation) :: _ => Some(x) ; case _ => None }
-	val superArgs = superCall.map(_.arguments: List[dom.Expression]) | Nil
+	val superArgs = superCall.map(_.arguments: List[dom.Expression]) getOrElse Nil
 	val superType = enclosingType.superType
 	
 	def emitSuperExpr: Emission =

@@ -28,8 +28,7 @@ import org.eclipse.jdt.core. { IType, IField, IMethod, ILocalVariable }
 import org.eclipse.jdt.core.dom
 import net.lag.configgy.Configgy
 import net.lag.logging.Logger
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 trait Control
 {
 	val log: Logger
@@ -79,6 +78,10 @@ with GenWrappers
 {	
 	import Global._
 	val log = Admin.log
+	
+	implicit def optionsyntax[T](x: Option[T]) = new {
+	  def |(orElse: => T): T = x getOrElse orElse
+  }
 
 	// this is the path for all ASTNode => enriched node upgrades
 	def lookup(node: ASTNode): Node = Forest.get(node)

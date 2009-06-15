@@ -2,8 +2,7 @@ package org.improving.scalify
 
 import Scalify._
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 // an STD is of course a Scala Type Declaration		
 class STDNoConstructor(node: dom.TypeDeclaration) extends TypeDeclaration(node)
 {		
@@ -20,7 +19,7 @@ class STDNoConstructor(node: dom.TypeDeclaration) extends TypeDeclaration(node)
 class Interface(node: dom.TypeDeclaration) extends TypeDeclaration(node)
 {	
 	lazy val isSplit: Boolean = !fields.isEmpty || isAnySuperSplit
-	lazy val isAnySuperSplit: Boolean = (superType.toList ::: superIntTypes).exists(_.tb.isSplitType) | false
+	lazy val isAnySuperSplit: Boolean = (superType.toList ::: superIntTypes) exists (_.tb.isSplitType)
 	lazy val valuesName: Emission = name <~> emitString("Vals")
 	lazy val valuesBody: Emission = if (fields.isEmpty) NL else BRACES(REP(fields.map(_.emitAsVal)))
 	lazy val allSupers: List[dom.Type] = superType.toList ::: superIntTypes

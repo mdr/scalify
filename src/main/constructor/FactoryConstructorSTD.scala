@@ -2,8 +2,7 @@ package org.improving.scalify
 
 import Scalify._
 import org.eclipse.jdt.core.dom
-import scalaz.OptionW._
-
+// import scalaz.OptionW._
 class STDWithFactory(node: dom.TypeDeclaration)
 extends TypeDeclaration(node)
 with ConstructorArrangement
@@ -38,7 +37,7 @@ with ConstructorArrangement
 			
 	def emitInstancePart: Emission = {
 		val icEmits = independentConstructors.map(emitOneInstancePart)
-		val superEmit: Emission = superType.map(EXTENDS ~ _.emit) | Nil
+		val superEmit: Emission = superType.map(EXTENDS ~ _.emit) getOrElse Nil
 			
 		ABSTRACT ~ TRAIT ~ name ~ TYPEARGS(typeParams) ~ superEmit ~ emitMixins(superIntTypes) ~
 		BRACES(emitStaticsImport(true) ~ REP(ifields) ~ REP(iinits) ~ REP(itypes) ~ REP(nonConstructors)) ~ NL ~
@@ -67,9 +66,9 @@ trait ConstructorArrangement {
 	
 	lazy val groups = PosetOps.arrange(constructors)
 	def getConstructorGroupLabel(con: Constructor): Int =
-		(0 until groups.size).find(num => groups(num).contains(con)) | abort("Nonexistent constructor")		
+		(0 until groups.size).find(num => groups(num).contains(con)) getOrElse abort("Nonexistent constructor")		
 	def getConstructorGroup(con: Constructor): List[Constructor] =
-		groups.find(list => list.contains(con)) | Nil
+		groups.find(list => list.contains(con)) getOrElse Nil
 		
 	def emitLabelForSuperCall(sc: Option[dom.SuperConstructorInvocation]): Emission =
 		emitString(getLabelForSuperCall(sc))
