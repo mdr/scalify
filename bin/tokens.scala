@@ -1,5 +1,5 @@
 #!/bin/sh
-exec scala -classpath '/Applications/eclipse/plugins/*' $0 $@
+exec scala -classpath "$ECLIPSE_HOME/plugins/*" $0 $@
 !#
 
 import scala.collection.immutable._

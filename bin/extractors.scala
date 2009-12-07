@@ -1,5 +1,5 @@
 #!/bin/sh
-exec scala -nowarn -classpath '/Applications/eclipse/plugins/*' $0 $@
+exec scala -nowarn -classpath "$ECLIPSE_HOME/plugins/*" $0 $@
 !#
 
 import java.util.Enumeration
