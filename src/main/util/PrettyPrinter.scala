@@ -31,7 +31,8 @@ class PrettyPrinter(val root: dom.CompilationUnit)
 			if (tokens(i) == r) {
 				val p = stack.pop
 				// println(p + "," + i + " => " + tokens(p) + " " + tokens(i))
-				pairs += (p, i)
+				//pairs += (p,i)  // type error
+				pairs += ((p, i)) // might get exception; reassigning to val
 			}
 		}
 	

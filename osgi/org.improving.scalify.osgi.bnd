@@ -1,9 +1,9 @@
--classpath: ../target/classes, ../lib, plugins
+-classpath: ../target/scala_2.8.0.Beta1-RC2/classes, ../lib, plugins
 Bundle-Version: 0
 Export-Package: org.improving.scalify,org.improving.scalify.osgi
 Import-Package: *
 # Private-Package: net.lag.configgy, net.lag.logger
-Include-Resource: @../lib/configgy.jar, @../lib/scalax.jar
+Include-Resource: @../lib/configgy-1.4.3.jar, @../lib/scalax-io_2.8.0.Beta1-RC2-0.1.jar
 Bundle-Activator: org.improving.scalify.osgi.Activator
 Service-Component: org.improving.scalify.osgi.TranslatorImpl; \ 
   provide:=org.improving.scalify.osgi.Translator; \ 
