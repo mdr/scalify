@@ -70,7 +70,7 @@ class MethodInvocation(override val node: dom.MethodInvocation) extends Expressi
 				else if (a.isArray && p.isArray && !a.isSameElementType(p)) p.emitCast(a.emit)
 				else a.emit
 			}
-		}) getOrElse args.map(_.emit)
+		}).firstOption getOrElse args.map(_.emit)
 	
 	private val consoleMethods = List(
 		"print", "println", "printf", "format", "readLine",

@@ -29,7 +29,9 @@ class Activator
 extends BundleActivator
 with CommandProvider
 {
-	import ScalifyOptions._
+  import org.improving.scalify.{ Scalify, ScalifyOptions }
+  import ScalifyOptions._
+  import Scalify._
 	
 	val TRANS				= classOf[Translator].getName
 	val CMD					= classOf[CommandProvider].getName
@@ -80,7 +82,7 @@ end
 		scalifyCmd(argv) match {
 			case CmdFailure(msg) => println(msg)
 			case CmdOpts(in, out, cps, javaComments, verbose) =>
-				if (verbose) Scalify.log.setLevel(logging.TRACE)
+				if (verbose) Scalify.log.setLevel(logging.Level.TRACE)
 				
 				println("Translating files from " + in + " into " + out)
 				if (!cps.isEmpty)

@@ -26,15 +26,7 @@ class ScalifyProject(info: ProjectInfo) extends DefaultProject(info)
   //override def getMainClass (promptIfMultipleChoices : Boolean) = None
   
   //val felix = "org.apache.felix" % "org.apache.felix.framework" % "1.8.0" intransitive()
-  
-  /* Eclipse libraries needed */
-  val eclipseLibs = List(
-    "org.eclipse.ui_.*.jar",
-    "org.eclipse.core.runtime_.*.jar",
-    "org.eclipse.core.resources_.*.jar",
-    "org.eclipse.jdt.core_.*.jar",
-    "org.eclipse.jface.text_.*.jar")
-  
+   
   // get Path for $ECLIPSE_HOME environment variable 
   def eclipseHome = 
     Path.fromFile(new File(System.getenv("ECLIPSE_HOME"))) / "plugins"
@@ -86,17 +78,13 @@ class ScalifyProject(info: ProjectInfo) extends DefaultProject(info)
     log info "lib/scalify.jar made"
     None
   } dependsOn(super.compileAction) describedAs("Compile and make scalify.jar")
-
-  lazy val makeJarAction = task {
-    "jar cMf lib/scalify.jar -C target/scala_2.8.0.Beta1-RC2/classes scalify" ! log
-    None
-  } describedAs("Make scalify.jar")  
   
   // osgi --- last phase
   lazy val osgiAction = task {
     bnd+" build "+osgiBnd.relativePath ! log
     log info osgiJar+" made"
     FileUtilities.copyFlat(Set(osgiJar), eclipseHome, log)
+    log info "Copied "+osgiJar+" to "+eclipseHome
     FileUtilities.clean(List("osgi" / "workspace"), true, log)
     var l = Path.fromFile("log")
     if(!l.exists) {

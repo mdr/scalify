@@ -1,5 +1,6 @@
 package org.improving.scalify.osgi
 
+import org.improving.scalify.{ Scalify, Global, Forest, NodeFactory, Renaming, PCompute, ScalaAST, ScalifySafe, Util, JavaModel, PrettyPrinter, TypeDeclaration }
 import ScalifySafe._
 
 // OSGI

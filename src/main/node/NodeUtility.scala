@@ -80,7 +80,7 @@ trait NodeUtility
 	// for primitive types
 	def emitBoxedValue: Emission = 
 		(for (tb <- tbinding ; if tb.isPrimitive) yield
-			emitJLRoot ~ getAnyValType(tb).emitBoxed(node)) getOrElse node
+			emitJLRoot ~ getAnyValType(tb).emitBoxed(node)).firstOption getOrElse node
 
 	// what to assign when we can't use _
 	def emitDefaultValue: Emission = node match {

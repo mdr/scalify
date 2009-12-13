@@ -16,7 +16,8 @@ object Compat
 
   // "covariant" arrays
   implicit def covariantArrays[T <: AnyRef, U](xs: Array[T]): Array[U] = xs.asInstanceOf[Array[U]]
-  implicit def cov2[T <: AnyVal, U](xs: Array[T]): Array[U] = xs.map(_.asInstanceOf[U])
+  //implicit def cov2[T <: AnyVal, U](xs: Array[T]): Array[U] = xs.map(_.asInstanceOf[U])
+  implicit def cov2[T <: AnyVal, U](xs: Array[T]): Array[U] = xs.map(_.asInstanceOf[U]).asInstanceOf[Array[U]]
   // implicit def covariantArrays[T <: AnyRef, U >: T](xs: Array[T]): Array[U] = xs.asInstanceOf[Array[U]]
   // implicit def cov1[T <: AnyVal, U <: AnyVal](xs: Array[T]): Array[U] xs.asInstanceOf[Array[U]]
   // implicit def cov1(xs: Array[Char]): Array[Int] = xs.map(_.toInt)

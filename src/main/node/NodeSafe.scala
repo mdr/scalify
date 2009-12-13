@@ -21,7 +21,7 @@ trait SafeImplicits
 	
 	implicit def jArrayToScalaList[T](jarray: Array[T]): List[T] = {
 		if (jarray == null) Nil
-		else jarray.toList
+		else jarray //jarray.toList
 	}
 	
 	// mutable<->immutable maps

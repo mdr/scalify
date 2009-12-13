@@ -182,7 +182,7 @@ trait GenExtractors
             Some(Opt(javadoc), modifiers, name, bodyDeclarations)
         }
     }
-
+  
     object AnnotationTypeMemberDeclaration {
         def unapply(node: dom.AnnotationTypeMemberDeclaration) = {
             val javadoc: dom.Javadoc = node.getJavadoc
@@ -194,7 +194,7 @@ trait GenExtractors
             Some(Opt(javadoc), modifiers, name, `type`, Opt(default))
         }
     }
-
+  
     object AnonymousClassDeclaration {
         def unapply(node: dom.AnonymousClassDeclaration) = {
             val bodyDeclarations: List[dom.BodyDeclaration] = node.bodyDeclarations
@@ -202,7 +202,7 @@ trait GenExtractors
             Some(bodyDeclarations)
         }
     }
-
+  
     object ArrayAccess {
         def unapply(node: dom.ArrayAccess) = {
             val array: dom.Expression = node.getArray
@@ -211,7 +211,7 @@ trait GenExtractors
             Some(array, index)
         }
     }
-
+  
     object ArrayCreation {
         def unapply(node: dom.ArrayCreation) = {
             val `type`: dom.ArrayType = node.getType
@@ -221,7 +221,7 @@ trait GenExtractors
             Some(`type`, dimensions, Opt(initializer))
         }
     }
-
+  
     object ArrayInitializer {
         def unapply(node: dom.ArrayInitializer) = {
             val expressions: List[dom.Expression] = node.expressions
@@ -229,7 +229,7 @@ trait GenExtractors
             Some(expressions)
         }
     }
-
+  
     object ArrayType {
         def unapply(node: dom.ArrayType) = {
             val componentType: dom.Type = node.getComponentType
@@ -237,7 +237,7 @@ trait GenExtractors
             Some(componentType)
         }
     }
-
+  
     object AssertStatement {
         def unapply(node: dom.AssertStatement) = {
             val expression: dom.Expression = node.getExpression
@@ -246,7 +246,7 @@ trait GenExtractors
             Some(expression, Opt(message))
         }
     }
-
+  
     object Assignment {
         import org.eclipse.jdt.core.dom.Assignment.Operator
         def unapply(node: dom.Assignment) = {
@@ -257,7 +257,7 @@ trait GenExtractors
             Some(leftHandSide, operator, rightHandSide)
         }
     }
-
+  
     object Block {
         def unapply(node: dom.Block) = {
             val statements: List[dom.Statement] = node.statements
@@ -265,7 +265,7 @@ trait GenExtractors
             Some(statements)
         }
     }
-
+  
     object BooleanLiteral {
         def unapply(node: dom.BooleanLiteral) = {
             val booleanValue: Boolean = node.booleanValue
@@ -273,7 +273,7 @@ trait GenExtractors
             Some(booleanValue)
         }
     }
-
+  
     object BreakStatement {
         def unapply(node: dom.BreakStatement) = {
             val label: dom.SimpleName = node.getLabel
@@ -281,7 +281,7 @@ trait GenExtractors
             Some(Opt(label))
         }
     }
-
+  
     object CastExpression {
         def unapply(node: dom.CastExpression) = {
             val `type`: dom.Type = node.getType
@@ -290,7 +290,7 @@ trait GenExtractors
             Some(`type`, expression)
         }
     }
-
+  
     object CatchClause {
         def unapply(node: dom.CatchClause) = {
             val exception: dom.SingleVariableDeclaration = node.getException
@@ -299,7 +299,7 @@ trait GenExtractors
             Some(exception, body)
         }
     }
-
+  
     object CharacterLiteral {
         def unapply(node: dom.CharacterLiteral) = {
             val escapedValue: String = node.getEscapedValue
@@ -307,7 +307,7 @@ trait GenExtractors
             Some(escapedValue)
         }
     }
-
+  
     object ClassInstanceCreation {
         def unapply(node: dom.ClassInstanceCreation) = {
             val expression: dom.Expression = node.getExpression
@@ -319,7 +319,7 @@ trait GenExtractors
             Some(Opt(expression), typeArguments, `type`, arguments, Opt(anonymousClassDeclaration))
         }
     }
-
+  
     object CompilationUnit {
         def unapply(node: dom.CompilationUnit) = {
             val `package`: dom.PackageDeclaration = node.getPackage
@@ -329,7 +329,7 @@ trait GenExtractors
             Some(Opt(`package`), imports, types)
         }
     }
-
+  
     object ConditionalExpression {
         def unapply(node: dom.ConditionalExpression) = {
             val expression: dom.Expression = node.getExpression
@@ -339,7 +339,7 @@ trait GenExtractors
             Some(expression, thenExpression, elseExpression)
         }
     }
-
+  
     object ConstructorInvocation {
         def unapply(node: dom.ConstructorInvocation) = {
             val typeArguments: List[dom.Type] = node.typeArguments
@@ -348,7 +348,7 @@ trait GenExtractors
             Some(typeArguments, arguments)
         }
     }
-
+  
     object ContinueStatement {
         def unapply(node: dom.ContinueStatement) = {
             val label: dom.SimpleName = node.getLabel
@@ -356,7 +356,7 @@ trait GenExtractors
             Some(Opt(label))
         }
     }
-
+  
     object DoStatement {
         def unapply(node: dom.DoStatement) = {
             val expression: dom.Expression = node.getExpression
@@ -365,7 +365,7 @@ trait GenExtractors
             Some(expression, body)
         }
     }
-
+  
     object EnhancedForStatement {
         def unapply(node: dom.EnhancedForStatement) = {
             val parameter: dom.SingleVariableDeclaration = node.getParameter
@@ -375,7 +375,7 @@ trait GenExtractors
             Some(parameter, expression, body)
         }
     }
-
+  
     object EnumConstantDeclaration {
         def unapply(node: dom.EnumConstantDeclaration) = {
             val javadoc: dom.Javadoc = node.getJavadoc
@@ -387,7 +387,7 @@ trait GenExtractors
             Some(Opt(javadoc), modifiers, name, arguments, Opt(anonymousClassDeclaration))
         }
     }
-
+  
     object EnumDeclaration {
         def unapply(node: dom.EnumDeclaration) = {
             val javadoc: dom.Javadoc = node.getJavadoc
@@ -400,7 +400,7 @@ trait GenExtractors
             Some(Opt(javadoc), modifiers, name, superInterfaceTypes, enumConstants, bodyDeclarations)
         }
     }
-
+  
     object ExpressionStatement {
         def unapply(node: dom.ExpressionStatement) = {
             val expression: dom.Expression = node.getExpression
@@ -408,7 +408,7 @@ trait GenExtractors
             Some(expression)
         }
     }
-
+  
     object FieldAccess {
         def unapply(node: dom.FieldAccess) = {
             val expression: dom.Expression = node.getExpression
@@ -417,7 +417,7 @@ trait GenExtractors
             Some(expression, name)
         }
     }
-
+  
     object FieldDeclaration {
         def unapply(node: dom.FieldDeclaration) = {
             val javadoc: dom.Javadoc = node.getJavadoc
@@ -428,7 +428,7 @@ trait GenExtractors
             Some(Opt(javadoc), modifiers, `type`, fragments)
         }
     }
-
+  
     object ForStatement {
         def unapply(node: dom.ForStatement) = {
             val initializers: List[dom.Expression] = node.initializers
@@ -439,7 +439,7 @@ trait GenExtractors
             Some(initializers, Opt(expression), updaters, body)
         }
     }
-
+  
     object IfStatement {
         def unapply(node: dom.IfStatement) = {
             val expression: dom.Expression = node.getExpression
@@ -449,7 +449,7 @@ trait GenExtractors
             Some(expression, thenStatement, Opt(elseStatement))
         }
     }
-
+  
     object ImportDeclaration {
         def unapply(node: dom.ImportDeclaration) = {
             val static: Boolean = node.isStatic
@@ -459,7 +459,7 @@ trait GenExtractors
             Some(static, name, onDemand)
         }
     }
-
+  
     object InfixExpression {
         import org.eclipse.jdt.core.dom.InfixExpression.Operator
         def unapply(node: dom.InfixExpression) = {
@@ -471,7 +471,7 @@ trait GenExtractors
             Some(leftOperand, operator, rightOperand, extendedOperands)
         }
     }
-
+  
     object Initializer {
         def unapply(node: dom.Initializer) = {
             val javadoc: dom.Javadoc = node.getJavadoc
@@ -481,7 +481,7 @@ trait GenExtractors
             Some(Opt(javadoc), modifiers, body)
         }
     }
-
+  
     object InstanceofExpression {
         def unapply(node: dom.InstanceofExpression) = {
             val leftOperand: dom.Expression = node.getLeftOperand
@@ -490,7 +490,7 @@ trait GenExtractors
             Some(leftOperand, rightOperand)
         }
     }
-
+  
     object Javadoc {
         def unapply(node: dom.Javadoc) = {
             val tags: List[dom.TagElement] = node.tags
@@ -498,7 +498,7 @@ trait GenExtractors
             Some(tags)
         }
     }
-
+  
     object LabeledStatement {
         def unapply(node: dom.LabeledStatement) = {
             val label: dom.SimpleName = node.getLabel
@@ -507,7 +507,7 @@ trait GenExtractors
             Some(label, body)
         }
     }
-
+  
     object MarkerAnnotation {
         def unapply(node: dom.MarkerAnnotation) = {
             val typeName: dom.Name = node.getTypeName
@@ -515,7 +515,7 @@ trait GenExtractors
             Some(typeName)
         }
     }
-
+  
     object MemberRef {
         def unapply(node: dom.MemberRef) = {
             val qualifier: dom.Name = node.getQualifier
@@ -524,7 +524,7 @@ trait GenExtractors
             Some(Opt(qualifier), name)
         }
     }
-
+  
     object MemberValuePair {
         def unapply(node: dom.MemberValuePair) = {
             val name: dom.SimpleName = node.getName
@@ -533,7 +533,7 @@ trait GenExtractors
             Some(name, value)
         }
     }
-
+  
     object MethodDeclaration {
         def unapply(node: dom.MethodDeclaration) = {
             val javadoc: dom.Javadoc = node.getJavadoc
@@ -550,7 +550,7 @@ trait GenExtractors
             Some(Opt(javadoc), modifiers, constructor, typeParameters, Opt(returnType2), name, parameters, extraDimensions, thrownExceptions, Opt(body))
         }
     }
-
+  
     object MethodInvocation {
         def unapply(node: dom.MethodInvocation) = {
             val expression: dom.Expression = node.getExpression
@@ -561,7 +561,7 @@ trait GenExtractors
             Some(Opt(expression), typeArguments, name, arguments)
         }
     }
-
+  
     object MethodRef {
         def unapply(node: dom.MethodRef) = {
             val qualifier: dom.Name = node.getQualifier
@@ -571,7 +571,7 @@ trait GenExtractors
             Some(Opt(qualifier), name, parameters)
         }
     }
-
+  
     object MethodRefParameter {
         def unapply(node: dom.MethodRefParameter) = {
             val `type`: dom.Type = node.getType
@@ -581,7 +581,7 @@ trait GenExtractors
             Some(`type`, varargs, Opt(name))
         }
     }
-
+  
     object Modifier {
         import org.eclipse.jdt.core.dom.Modifier.ModifierKeyword
         def unapply(node: dom.Modifier) = {
@@ -590,7 +590,7 @@ trait GenExtractors
             Some(keyword)
         }
     }
-
+  
     object NormalAnnotation {
         def unapply(node: dom.NormalAnnotation) = {
             val typeName: dom.Name = node.getTypeName
@@ -599,7 +599,7 @@ trait GenExtractors
             Some(typeName, values)
         }
     }
-
+  
     object NumberLiteral {
         def unapply(node: dom.NumberLiteral) = {
             val token: String = node.getToken
@@ -607,7 +607,7 @@ trait GenExtractors
             Some(token)
         }
     }
-
+  
     object PackageDeclaration {
         def unapply(node: dom.PackageDeclaration) = {
             val javadoc: dom.Javadoc = node.getJavadoc
@@ -617,7 +617,7 @@ trait GenExtractors
             Some(Opt(javadoc), annotations, name)
         }
     }
-
+  
     object ParameterizedType {
         def unapply(node: dom.ParameterizedType) = {
             val `type`: dom.Type = node.getType
@@ -626,7 +626,7 @@ trait GenExtractors
             Some(`type`, typeArguments)
         }
     }
-
+  
     object ParenthesizedExpression {
         def unapply(node: dom.ParenthesizedExpression) = {
             val expression: dom.Expression = node.getExpression
@@ -634,7 +634,7 @@ trait GenExtractors
             Some(expression)
         }
     }
-
+  
     object PostfixExpression {
         import org.eclipse.jdt.core.dom.PostfixExpression.Operator
         def unapply(node: dom.PostfixExpression) = {
@@ -644,7 +644,7 @@ trait GenExtractors
             Some(operand, operator)
         }
     }
-
+  
     object PrefixExpression {
         import org.eclipse.jdt.core.dom.PrefixExpression.Operator
         def unapply(node: dom.PrefixExpression) = {
@@ -654,7 +654,7 @@ trait GenExtractors
             Some(operator, operand)
         }
     }
-
+  
     object PrimitiveType {
         import org.eclipse.jdt.core.dom.PrimitiveType.Code
         def unapply(node: dom.PrimitiveType) = {
@@ -663,7 +663,7 @@ trait GenExtractors
             Some(primitiveTypeCode)
         }
     }
-
+  
     object QualifiedName {
         def unapply(node: dom.QualifiedName) = {
             val qualifier: dom.Name = node.getQualifier
@@ -672,7 +672,7 @@ trait GenExtractors
             Some(qualifier, name)
         }
     }
-
+  
     object QualifiedType {
         def unapply(node: dom.QualifiedType) = {
             val qualifier: dom.Type = node.getQualifier
@@ -681,7 +681,7 @@ trait GenExtractors
             Some(qualifier, name)
         }
     }
-
+  
     object ReturnStatement {
         def unapply(node: dom.ReturnStatement) = {
             val expression: dom.Expression = node.getExpression
@@ -689,7 +689,7 @@ trait GenExtractors
             Some(Opt(expression))
         }
     }
-
+  
     object SimpleName {
         def unapply(node: dom.SimpleName) = {
             val identifier: String = node.getIdentifier
@@ -697,7 +697,7 @@ trait GenExtractors
             Some(identifier)
         }
     }
-
+  
     object SimpleType {
         def unapply(node: dom.SimpleType) = {
             val name: dom.Name = node.getName
@@ -705,7 +705,7 @@ trait GenExtractors
             Some(name)
         }
     }
-
+  
     object SingleMemberAnnotation {
         def unapply(node: dom.SingleMemberAnnotation) = {
             val typeName: dom.Name = node.getTypeName
@@ -714,7 +714,7 @@ trait GenExtractors
             Some(typeName, value)
         }
     }
-
+  
     object SingleVariableDeclaration {
         def unapply(node: dom.SingleVariableDeclaration) = {
             val modifiers: List[dom.IExtendedModifier] = node.modifiers
@@ -727,7 +727,7 @@ trait GenExtractors
             Some(modifiers, `type`, varargs, name, extraDimensions, Opt(initializer))
         }
     }
-
+  
     object StringLiteral {
         def unapply(node: dom.StringLiteral) = {
             val escapedValue: String = node.getEscapedValue
@@ -735,7 +735,7 @@ trait GenExtractors
             Some(escapedValue)
         }
     }
-
+  
     object SuperConstructorInvocation {
         def unapply(node: dom.SuperConstructorInvocation) = {
             val expression: dom.Expression = node.getExpression
@@ -745,7 +745,7 @@ trait GenExtractors
             Some(Opt(expression), typeArguments, arguments)
         }
     }
-
+  
     object SuperFieldAccess {
         def unapply(node: dom.SuperFieldAccess) = {
             val qualifier: dom.Name = node.getQualifier
@@ -754,7 +754,7 @@ trait GenExtractors
             Some(Opt(qualifier), name)
         }
     }
-
+  
     object SuperMethodInvocation {
         def unapply(node: dom.SuperMethodInvocation) = {
             val qualifier: dom.Name = node.getQualifier
@@ -765,7 +765,7 @@ trait GenExtractors
             Some(Opt(qualifier), typeArguments, name, arguments)
         }
     }
-
+  
     object SwitchCase {
         def unapply(node: dom.SwitchCase) = {
             val expression: dom.Expression = node.getExpression
@@ -773,7 +773,7 @@ trait GenExtractors
             Some(Opt(expression))
         }
     }
-
+  
     object SwitchStatement {
         def unapply(node: dom.SwitchStatement) = {
             val expression: dom.Expression = node.getExpression
@@ -782,7 +782,7 @@ trait GenExtractors
             Some(expression, statements)
         }
     }
-
+  
     object SynchronizedStatement {
         def unapply(node: dom.SynchronizedStatement) = {
             val expression: dom.Expression = node.getExpression
@@ -791,7 +791,7 @@ trait GenExtractors
             Some(expression, body)
         }
     }
-
+  
     object TagElement {
         def unapply(node: dom.TagElement) = {
             val tagName: String = node.getTagName
@@ -800,7 +800,7 @@ trait GenExtractors
             Some(Opt(tagName), fragments)
         }
     }
-
+  
     object TextElement {
         def unapply(node: dom.TextElement) = {
             val text: String = node.getText
@@ -808,7 +808,7 @@ trait GenExtractors
             Some(text)
         }
     }
-
+  
     object ThisExpression {
         def unapply(node: dom.ThisExpression) = {
             val qualifier: dom.Name = node.getQualifier
@@ -816,7 +816,7 @@ trait GenExtractors
             Some(Opt(qualifier))
         }
     }
-
+  
     object ThrowStatement {
         def unapply(node: dom.ThrowStatement) = {
             val expression: dom.Expression = node.getExpression
@@ -824,7 +824,7 @@ trait GenExtractors
             Some(expression)
         }
     }
-
+  
     object TryStatement {
         def unapply(node: dom.TryStatement) = {
             val body: dom.Block = node.getBody
@@ -834,7 +834,7 @@ trait GenExtractors
             Some(body, catchClauses, Opt(`finally`))
         }
     }
-
+  
     object TypeDeclaration {
         def unapply(node: dom.TypeDeclaration) = {
             val javadoc: dom.Javadoc = node.getJavadoc
@@ -849,7 +849,7 @@ trait GenExtractors
             Some(Opt(javadoc), modifiers, interface, name, typeParameters, Opt(superclassType), superInterfaceTypes, bodyDeclarations)
         }
     }
-
+  
     object TypeDeclarationStatement {
         def unapply(node: dom.TypeDeclarationStatement) = {
             val declaration: dom.AbstractTypeDeclaration = node.getDeclaration
@@ -857,7 +857,7 @@ trait GenExtractors
             Some(declaration)
         }
     }
-
+  
     object TypeLiteral {
         def unapply(node: dom.TypeLiteral) = {
             val `type`: dom.Type = node.getType
@@ -865,7 +865,7 @@ trait GenExtractors
             Some(`type`)
         }
     }
-
+  
     object TypeParameter {
         def unapply(node: dom.TypeParameter) = {
             val name: dom.SimpleName = node.getName
@@ -874,7 +874,7 @@ trait GenExtractors
             Some(name, typeBounds)
         }
     }
-
+  
     object VariableDeclarationExpression {
         def unapply(node: dom.VariableDeclarationExpression) = {
             val modifiers: List[dom.IExtendedModifier] = node.modifiers
@@ -884,7 +884,7 @@ trait GenExtractors
             Some(modifiers, `type`, fragments)
         }
     }
-
+  
     object VariableDeclarationFragment {
         def unapply(node: dom.VariableDeclarationFragment) = {
             val name: dom.SimpleName = node.getName
@@ -894,7 +894,7 @@ trait GenExtractors
             Some(name, extraDimensions, Opt(initializer))
         }
     }
-
+  
     object VariableDeclarationStatement {
         def unapply(node: dom.VariableDeclarationStatement) = {
             val modifiers: List[dom.IExtendedModifier] = node.modifiers
@@ -904,7 +904,7 @@ trait GenExtractors
             Some(modifiers, `type`, fragments)
         }
     }
-
+  
     object WhileStatement {
         def unapply(node: dom.WhileStatement) = {
             val expression: dom.Expression = node.getExpression
@@ -913,7 +913,7 @@ trait GenExtractors
             Some(expression, body)
         }
     }
-
+  
     object WildcardType {
         def unapply(node: dom.WildcardType) = {
             val bound: dom.Type = node.getBound
@@ -922,4 +922,4 @@ trait GenExtractors
             Some(Opt(bound), upperBound)
         }
     }
-}
+  }
