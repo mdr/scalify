@@ -1,7 +1,3 @@
-#!/bin/sh
-exec scala -classpath "$ECLIPSE_HOME/plugins/*" $0 $@
-!#
-
 import scala.collection.immutable._
 
 // scala token names
