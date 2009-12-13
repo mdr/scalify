@@ -37,12 +37,7 @@ class ScalifyProject(info: ProjectInfo) extends DefaultProject(info)
   
   // get Path for $ECLIPSE_HOME environment variable 
   def eclipseHome = 
-    Path.fromFile(new File(System.getenv("ECLIPSE_HOME"))) / "plugins" 
-  //  get all jars under eclipseHome 
-  /*def eclipsePlugins = descendents(
-    descendents(eclipseHome, "*.jar"), new SimpleFilter((x:String) => 
-      eclipseLibs.exists(y => x.matches(y))
-  ))*/
+    Path.fromFile(new File(System.getenv("ECLIPSE_HOME"))) / "plugins"
   def eclipsePlugins = descendents(eclipseHome, "*.jar")
   
   // add jars to "unmanaged" path 
@@ -66,34 +61,22 @@ class ScalifyProject(info: ProjectInfo) extends DefaultProject(info)
       "wrappers.scala" -> "GenWrappers.scala")
     val sJars = makeString(FileUtilities.scalaJars map (Path.fromFile(_)))
     val runCP = makeString(runClasspath.get)
-    //var logger = new BufferedLogger(log)
-    //logger.startRecording
     for ((gen,out) <- gens) {
       val genF = "bin" / gen
       val outF = mainScalaSourcePath / "codegen" / out
       if(!outF.exists || (genF.lastModified > outF.lastModified)) {
         log info "Regenerating "+outF+" ..."
-        //log info "sJars: "+sJars
-        //log info "Gen:"+genF+", out:"+outF
         // improve this
         val p = 
           /*  <x>java -classpath {sJars}  
            scala.tools.nsc.MainGenericRunner -classpath {runCP}*/
           <x>scala -nowarn -deprecation -unchecked -classpath {runCP} -howtorun:script 
         {genF.relativePath}</x>
-        // temp
-        //val tmpFile = Path.fromFile(out)        
-        //logger.enableTrace(false)        
-        //p #> tmpFile.asFile ! logger
         p #> outF.asFile ! log
-        //logger.play        
-        //FileUtilities.copyFile(tmpFile,outF,log)
       } else {
         log info "Source file "+outF+" is up to date"
       }  
     }
-    // delete temp files
-    //FileUtilities.clean(gens.values.toList.map(Path.fromFile),log)
     None
   } describedAs("None")
 
@@ -129,18 +112,6 @@ class ScalifyProject(info: ProjectInfo) extends DefaultProject(info)
     "-jar osgi/org.eclipse.osgi_3.5.0.v20090127-1630.jar -configuration configuration -console"
   private val bnd = "java -jar lib/bnd.jar -exceptions"
 
-  /*lazy val osgiConsole = task {
-    //((new java.lang.ProcessBuilder("rlwrap -c java "+javaOpts+" "+osgiOpts+" "+vmArgs)) directory "osgi") #| ((new java.lang.ProcessBuilder("")) directory "..") ! log
-    "rlwrap -c java "+javaOpts+" "+osgiOpts+" "+vmArgs ! log
-    None
-  } dependsOn(osgiAction) describedAs("Launch OSGI console")*/
-
-  /*override lazy val cleanAction = task {
-    FileUtilities.clean(List("osgi" / "workspace"), true, log)
-    FileUtilities.clean(descendents("osgi"/"configuration", "org.*").get, true, log)
-    None
-  } dependsOn(super.cleanAction) describedAs("Remove class files, osgi config and workspace")*/
-
   lazy val cleanOsgiAction = task {
     FileUtilities.clean(List("osgi" / "workspace"), true, log)
     FileUtilities.clean(descendents("osgi"/"configuration", "org.*").get, true, log)
@@ -152,5 +123,5 @@ class ScalifyProject(info: ProjectInfo) extends DefaultProject(info)
   } dependsOn(codeGenAction, compileAction, osgiAction) describedAs("Does complete build.")
 
   // 
-  //val jarName = jarPath
+  //val jarName = jarPathgt 
 }
